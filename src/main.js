@@ -8,6 +8,7 @@ import VueFuse from 'vue-fuse'
 import App from './App.vue'
 
 Vue.use(VueFuse)
+Vue.use(require('vue-moment'))
 
 Vue.config.productionTip = false
 
