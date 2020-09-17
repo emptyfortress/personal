@@ -1,24 +1,16 @@
 <template lang="pug">
 .pa-5
-	//- .zg {{ new Date() | moment("dddd, MMMM Do, YYYY") }}
 	.zg {{ date }}
 	.home
-		.bl
-			Wave(:color="color")
+		.bl.over(v-for="block in blocks")
+			Wave(:color="color" v-if="block.id === 0")
 			.hd 
-				.txt Новые задания
-				.dig &darr; 4
-			.big 12
-		.bl
-			.hd 
-				.txt Срочные задания
-				.dig &darr; 4
-			.big 12
-		.bl
-			.hd
-				.txt Контроль
-				.dig &darr; 4
-			.big 12
+				.txt {{ block.title }}
+				.dig(:class="block.down ? '' : 'red--text'")
+					span(v-if="block.down") &darr;
+					span(v-if="!block.down" ) &uarr;
+					span {{ block.digit }}
+			.big {{ block.big }}
 		.bl
 			.hd
 				.txt Исполнительская дисциплина
@@ -42,8 +34,6 @@ import Wave from '@/components/Wave'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 
-
-
 export default {
 	components: {
 		apexchart: VueApexCharts,
@@ -53,6 +43,11 @@ export default {
 	data: () => ({
 		date: '',
 		color: '#6DAE50',
+		blocks: [
+			{ id: 0, title: 'Новые задания', digit: 7, down: true, big: 12 },
+			{ id: 1, title: 'Срочные задания', digit: 3, down: true, big: 2 },
+			{ id: 2, title: 'Контроль', digit: 5, down: false, big: 9 },
+		],
 		series: [70],
 		chartOptions: {
 			chart: {
@@ -66,7 +61,7 @@ export default {
 					}
 				},
 			},
-			labels: ['Cricket'],
+			labels: ['Производство'],
 		},
 	}),
 	methods:{
@@ -75,7 +70,6 @@ export default {
 		var date = new Date()
 		var option = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 		this.date = (new Intl.DateTimeFormat('ru-RU', option).format(date))
-
 	}
 }
 
@@ -85,7 +79,6 @@ export default {
 @import '@/assets/css/colors.scss';
 
 .home {
-	/* background: #ccc; */
 	margin-top: 2rem;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -100,11 +93,12 @@ export default {
 	background: #fff;
 	border-radius: 4px;
 	padding: 1rem;
-	cursor: pointer;
 	position: relative;
 	padding-bottom: 30px;
 	overflow: hidden;
-	&:hover {
+	border: 1px solid #fff;
+	cursor: pointer;
+	&.over:hover {
 		box-shadow: 0 3px 10px #ccc;
 		border: 1px solid #dedede;
 	}
@@ -122,5 +116,8 @@ export default {
 .txt .v-icon {
 	transform: translateY(-3px);
 	margin-right: .5rem;
+}
+.dig {
+	color: green;
 }
 </style>

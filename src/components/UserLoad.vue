@@ -23,6 +23,8 @@ export default {
 			{ id: 3, imgURL: '3', title: 'Сорокин К.', load: '23' },
 			{ id: 4, imgURL: '4', title: 'Гусев М.', load: '23' },
 			{ id: 5, imgURL: '5', title: 'Гусева И.', load: '23' },
+			{ id: 6, imgURL: '6', title: 'Коршунов П.', load: '23' },
+			{ id: 7, imgURL: '7', title: 'Жаворонокова И.', load: '23' },
 		],
 	}),
 	methods: {
@@ -30,9 +32,10 @@ export default {
 			anime({
 				targets: '.slide',
 				left: 150,
-				easing: 'easeOutElastic',
+				duration: 500,
+				easing: 'easeOutQuint',
 				direction: 'alternate',
-				delay: anime.stagger(100, {start: 1000}),
+				delay: anime.stagger(100),
 
 				// duration: 2000,
 			})
