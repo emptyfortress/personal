@@ -27,6 +27,7 @@ export default {
 				{ id: 1, url: '/doc', icon: 'mdi-folder-outline', text: 'Документы' },
 				{ id: 2, url: '/task', icon: 'mdi-folder-outline', text: 'Задания' },
 				{ id: 3, url: '/folder', icon: 'mdi-folder-outline', text: 'Папка' },
+				{ id: 4, url: '/flip', icon: 'mdi-folder-outline', text: 'Flip' },
 			],
 		}
 	},

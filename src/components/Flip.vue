@@ -1,24 +1,28 @@
 <template lang="pug">
 .test
 	.zag Test
-	br
-	listItem1(v-for="item in items" :item="item" :key="item.id" :zapros="'ttt'")
-	//- p(v-for="item in items") falksdjlaksj alksdj
+	.d-flex(v-if="focused === null")
+		Small(v-for="n in 3" :key="n")
+	.d-flex(v-else)
+		Big
 
 </template>
 
 <script>
-import items from '@/store/data.js'
-import listItem1 from '@/components/listItem1'
+// import { Flipper, Flipped } from "vue-flip-toolkit"
+import Small from '@/components/Small'
+import Big from '@/components/Big'
+
 
 export default {
 	data () {
 		return {
-			items,
+			focused: 1,
 		}
 	},
 	components: {
-		listItem1
+		Small,
+		Big,
 	},
 }
 

@@ -35,6 +35,7 @@ import Wave from '@/components/Wave'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
+import { Flipper, Flipped } from "vue-flip-toolkit"
 
 
 export default {
@@ -43,6 +44,8 @@ export default {
 		Wave,
 		UserLoad,
 		listFavorites,
+		Flipper,
+		Flipped,
 	},
 	data: () => ({
 		date: '',
