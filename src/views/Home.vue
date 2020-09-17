@@ -19,13 +19,14 @@
 				apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
 		.bl
 			.hd
-				.txt Загрузка подчиненных
+				.txt Задания у подчиненных
 			UserLoad
 		.bl
 			.hd
 				.txt
 					v-icon mdi-star-outline
 					span Избранное
+			listFavorites
 
 </template>
 
@@ -33,12 +34,15 @@
 import Wave from '@/components/Wave'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
+import listFavorites from '@/components/listFavorites'
+
 
 export default {
 	components: {
 		apexchart: VueApexCharts,
 		Wave,
 		UserLoad,
+		listFavorites,
 	},
 	data: () => ({
 		date: '',
