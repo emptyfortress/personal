@@ -15,9 +15,10 @@ Flipper(:flipKey="focused").pa-5
 									span(v-if="block.down") &darr;
 									span(v-if="!block.down" ) &uarr;
 									span {{ block.digit }}
-					.big {{ block.big }}
+					Flipped(:flipId="`big-${index}`")
+						.big {{ block.big }}
 			div(v-if="focused !== null")
-				Flipped(:flipId="`item-${index}`")
+				Flipped(:flipId="`item-${index}`" @on-start="handleStart")
 					.block(@click="toggle(index)" v-if="index === focused")
 						Flipped(:inverseFlipId="`item-${index}`")
 							.hd
@@ -31,7 +32,10 @@ Flipper(:flipKey="focused").pa-5
 								v-spacer
 								v-btn(icon @click="toggle(index)")
 									v-icon mdi-close
-						.big {{ block.big }}
+						.mygrid
+							.gridd(v-for="n in 7")
+						Flipped(:flipId="`big-${index}`")
+							.big {{ block.big }}
 	.home
 		.bl
 			.hd
@@ -59,6 +63,8 @@ import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
+// import anime from 'animejs'
+
 
 
 export default {
@@ -101,6 +107,25 @@ export default {
 				this.focused = null
 			} else this.focused = e
 		},
+		handleStart ({ el }) {
+			const squares = el.querySelectorAll('.gridd')
+			console.log(squares)
+			// anime({
+			// 	targets: squares,
+			// 	opacity: [0, 1],
+			// 	delay: anime.stagger(40, { easing: 'easeINQuad' })
+			// })
+			// const pic = el.querySelector('.note')
+			// anime({
+			// 	targets: pic,
+			// 	translateY: 50,
+			// 	opacity: 1,
+			// 	delay: 800
+			// })
+			// setTimeout(() => {
+			// 	el.classList.add('animated-in')
+			// }, 600)
+		}
 	},
 	mounted () {
 		var date = new Date()
@@ -150,7 +175,7 @@ export default {
 	transform: translate(-50%, -50%);
 	background: #fff;
 	width: 60%;
-	height: 500px;
+	/* height: 500px; */
 	border-radius: 4px;
 	padding: 1rem;
 	z-index: 7;
@@ -162,7 +187,6 @@ export default {
 	}
 	.dig {
 		margin-top: 7px;
-		/* margin-right: 1rem; */
 	}
 	.txt {
 		font-size: 1.3rem;
@@ -181,5 +205,15 @@ export default {
 }
 .dig {
 	color: green;
+}
+.mygrid {
+	display: grid;
+	grid-direction: column;
+	gap: 4px;
+	.gridd {
+		height: 30px;
+		background: #ccc;
+		/* opacity: 0; */
+	}
 }
 </style>
