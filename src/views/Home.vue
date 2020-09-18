@@ -31,7 +31,7 @@
 											span(v-if="block.down") &darr;
 											span(v-else) &uarr;
 											span {{ block.digit }}
-									v-btn(icon)
+									v-btn(fab color="primary" small).close
 										v-icon mdi-close
 								.mygrid
 									.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
@@ -97,26 +97,15 @@ export default {
 				opacity: 1,
 				delay: anime.stagger(100, { start: 500, easing: 'easeInQuad' })
 			})
-			// anime({
-			// 	targets: squares,
-			// 	opacity: 1,
-			// 	delay: anime.stagger(100, { easing: 'easeInQuad' })
-			// })
-			// anime({
-			// 	targets: squares,
-			// 	opacity: [0, 1],
-			// 	delay: anime.stagger(40, { easing: 'easeInQuad' })
-			// })
-			// const pic = el.querySelector('.note')
-			// anime({
-			// 	targets: pic,
-			// 	translateY: 50,
-			// 	opacity: 1,
-			// 	delay: 800
-			// })
-			// setTimeout(() => {
-			// 	el.classList.add('animated-in')
-			// }, 600)
+			const close = el.querySelector('.close')
+			anime({
+				targets: close,
+				opacity: 1,
+				duration: 200,
+				rotate: 360,
+				scale: [0,1],
+				delay: 700,
+			})
 		}
 	},
 	mounted () {
@@ -163,12 +152,12 @@ export default {
 .block {
 	position: fixed;
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+	top: 160px;
+	transform: translateX(-50%);
 	background: #fff;
 	width: 60%;
 	border-radius: 4px;
-	padding: 1rem;
+	padding: 2rem;
 	z-index: 7;
 	box-shadow: 0 3px 10px #ccc;
 	border: 1px solid #dedede;
@@ -182,6 +171,12 @@ export default {
 	.txt {
 		font-size: 1.3rem;
 		margin-right: 2rem;
+	}
+	.close {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		opacity: 0;
 	}
 }
 .big {
