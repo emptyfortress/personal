@@ -33,10 +33,14 @@
 											span {{ block.digit }}
 									v-btn(fab color="primary" small).close
 										v-icon mdi-close
-								.mygrid
-									.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
-								Flipped(:flipId="`big-${index}`")
-									.big {{ block.big }}
+								//- .mygrid
+								listTable
+									//- .gridd.slide(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
+								.d-flex.align-center.mt-5
+									Flipped(:flipId="`big-${index}`")
+										.big {{ block.big }}
+									v-btn(depressed).ml-6.mt-3 {{ block.but }}
+									v-btn(depressed).ml-2.mt-3 Действие 1
 	.home.one
 		.bl
 			.hd
@@ -61,6 +65,7 @@ import Wave from '@/components/Wave'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
+import listTable from '@/components/listTable'
 import { Flipper, Flipped } from "vue-flip-toolkit"
 import anime from 'animejs'
 
@@ -72,15 +77,16 @@ export default {
 		listFavorites,
 		Flipper,
 		Flipped,
+		listTable
 	},
 	data: () => ({
 		date: '',
 		focused: null,
 		color: '#6DAE50',
 		blocks: [
-			{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true, big: 12 },
-			{ id: 1, active: false, title: 'Срочные задания', digit: 3, down: true, big: 2 },
-			{ id: 2, active: false, title: 'Контроль', digit: 5, down: false, big: 9 },
+			{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true, big: 12, but: 'Сбросить счетчик', but1: 'Прочитать все' },
+			{ id: 1, active: false, title: 'Срочные задания', digit: 3, down: true, big: 2, but: 'Прочитать все' },
+			{ id: 2, active: false, title: 'Контроль', digit: 5, down: false, big: 9, but: 'Прочитать все' },
 		],
 		series: [70],
 		chartOptions: {
@@ -107,12 +113,12 @@ export default {
 			} else this.focused = e
 		},
 		handleStart ({ el }) {
-			const squares = el.querySelectorAll('.gridd')
+			const squares = el.querySelectorAll('.slide')
 			anime({
 				targets: squares,
 				translateX: [30, 0],
 				opacity: [0, 1],
-				delay: anime.stagger(100, { start: 500, easing: 'easeInQuad' })
+				delay: anime.stagger(120, { start: 500, easing: 'easeInQuad' })
 			})
 			const close = el.querySelector('.close')
 			anime({
