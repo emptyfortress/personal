@@ -8,21 +8,24 @@
 					.bl.over(@click="toggle(index)")
 						Wave(:color="color" v-if="index === 0")
 						.hd
-							.txt {{ block.title }}
-							.dig(:class="block.down ? '' : 'red--text'")
-								span(v-if="block.down") &darr;
-								span(v-else) &uarr;
-								span {{ block.digit }}
+							Flipped(:flipId="`hd-${index}`")
+								.txt {{ block.title }}
+							Flipped(:flipId="`dig-${index}`")
+								.dig(:class="block.down ? '' : 'red--text'")
+									span(v-if="block.down") &darr;
+									span(v-else) &uarr;
+									span {{ block.digit }}
 						.big {{ block.big }}
 				Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
 					.block(@click="toggle(index)")
 						.hd
-							.txt {{ block.title }}
-							.dig(:class="block.down ? '' : 'red--text'")
-								span(v-if="block.down") &darr;
-								span(v-else) &uarr;
-								span {{ block.digit }}
-							v-spacer
+							Flipped(:flipId="`hd-${index}`")
+								.txt {{ block.title }}
+							Flipped(:flipId="`dig-${index}`")
+								.dig(:class="block.down ? '' : 'red--text'")
+									span(v-if="block.down") &darr;
+									span(v-else) &uarr;
+									span {{ block.digit }}
 							v-btn(icon)
 								v-icon mdi-close
 						.mygrid
@@ -166,7 +169,7 @@ export default {
 		justify-content: space-between;
 	}
 	.dig {
-		margin-top: 7px;
+		margin-top: 5px;
 	}
 	.txt {
 		font-size: 1.3rem;
@@ -193,7 +196,6 @@ export default {
 	.gridd {
 		height: 30px;
 		width: 100%;
-		/* background: #ccc; */
 		margin-left: 50px;
 		opacity: 0;
 	}
