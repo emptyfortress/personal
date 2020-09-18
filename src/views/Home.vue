@@ -1,5 +1,5 @@
 <template lang="pug">
-.pa-5
+.pa-5.rel
 	.zg {{ date }}
 	Flipper(:flipKey="focused" spring="stiff")
 		.home
@@ -37,6 +37,23 @@
 									.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
 								Flipped(:flipId="`big-${index}`")
 									.big {{ block.big }}
+	.home.one
+		.bl
+			.hd
+				.txt Исполнительская дисциплина
+				.dig &uarr; 3
+			div
+				apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
+		.bl
+			.hd
+				.txt Задания у подчиненных
+			UserLoad
+		.bl
+			.hd
+				.txt
+					v-icon mdi-star-outline
+					span Избранное
+			listFavorites
 </template>
 
 <script>
@@ -93,14 +110,14 @@ export default {
 			const squares = el.querySelectorAll('.gridd')
 			anime({
 				targets: squares,
-				translateX: '-=50',
-				opacity: 1,
+				translateX: [30, 0],
+				opacity: [0, 1],
 				delay: anime.stagger(100, { start: 500, easing: 'easeInQuad' })
 			})
 			const close = el.querySelector('.close')
 			anime({
 				targets: close,
-				opacity: 1,
+				opacity: [0, 1],
 				duration: 200,
 				rotate: 360,
 				scale: [0,1],
@@ -125,6 +142,9 @@ export default {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 1rem;
+	&.one {
+		margin-top: 1rem;
+	}
 }
 .zg {
 	text-align: center;
@@ -150,12 +170,11 @@ export default {
 	}
 }
 .block {
-	position: fixed;
-	left: 50%;
-	top: 160px;
-	transform: translateX(-50%);
+	position: absolute;
+	left: 0;
+	top: 100px;
 	background: #fff;
-	width: 60%;
+	width: 100%;
 	border-radius: 4px;
 	padding: 2rem;
 	z-index: 7;
@@ -199,7 +218,6 @@ export default {
 	.gridd {
 		height: 30px;
 		width: 100%;
-		margin-left: 50px;
 		opacity: 0;
 	}
 }
