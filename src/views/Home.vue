@@ -5,32 +5,38 @@
 		.home
 			div(v-for="(block,index) in blocks")
 				Flipped(:flipId="`box-${index}`")
-					.bl.over(@click="toggle(index)")
+					.bl.over(@click="toggle(index)" :class="block.active ? 'zind' : ''")
 						Wave(:color="color" v-if="index === 0")
-						.hd
-							Flipped(:flipId="`hd-${index}`")
-								.txt {{ block.title }}
-							Flipped(:flipId="`dig-${index}`")
-								.dig(:class="block.down ? '' : 'red--text'")
-									span(v-if="block.down") &darr;
-									span(v-else) &uarr;
-									span {{ block.digit }}
-						.big {{ block.big }}
+						Flipped(:inverseFlipId="`box-${index}`")
+							div
+								.hd
+									Flipped(:flipId="`hd-${index}`")
+										.txt {{ block.title }}
+									Flipped(:flipId="`dig-${index}`")
+										.dig(:class="block.down ? '' : 'red--text'")
+											span(v-if="block.down") &darr;
+											span(v-else) &uarr;
+											span {{ block.digit }}
+								Flipped(:flipId="`big-${index}`")
+									.big {{ block.big }}
 				Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
 					.block(@click="toggle(index)")
-						.hd
-							Flipped(:flipId="`hd-${index}`")
-								.txt {{ block.title }}
-							Flipped(:flipId="`dig-${index}`")
-								.dig(:class="block.down ? '' : 'red--text'")
-									span(v-if="block.down") &darr;
-									span(v-else) &uarr;
-									span {{ block.digit }}
-							v-btn(icon)
-								v-icon mdi-close
-						.mygrid
-							.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
-						.big {{ block.big }}
+						Flipped(:inverseFlipId="`box-${index}`")
+							div
+								.hd
+									Flipped(:flipId="`hd-${index}`")
+										.txt {{ block.title }}
+									Flipped(:flipId="`dig-${index}`")
+										.dig(:class="block.down ? '' : 'red--text'")
+											span(v-if="block.down") &darr;
+											span(v-else) &uarr;
+											span {{ block.digit }}
+									v-btn(icon)
+										v-icon mdi-close
+								.mygrid
+									.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
+								Flipped(:flipId="`big-${index}`")
+									.big {{ block.big }}
 </template>
 
 <script>
@@ -55,9 +61,9 @@ export default {
 		focused: null,
 		color: '#6DAE50',
 		blocks: [
-			{ id: 0, title: 'Новые задания', digit: 7, down: true, big: 12 },
-			{ id: 1, title: 'Срочные задания', digit: 3, down: true, big: 2 },
-			{ id: 2, title: 'Контроль', digit: 5, down: false, big: 9 },
+			{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true, big: 12 },
+			{ id: 1, active: false, title: 'Срочные задания', digit: 3, down: true, big: 2 },
+			{ id: 2, active: false, title: 'Контроль', digit: 5, down: false, big: 9 },
 		],
 		series: [70],
 		chartOptions: {
@@ -77,6 +83,8 @@ export default {
 	}),
 	methods:{
 		toggle (e) {
+			this.blocks.map( item => item.active = false)
+			this.blocks[e].active = true
 			if (this.focused !== null) {
 				this.focused = null
 			} else this.focused = e
@@ -199,5 +207,8 @@ export default {
 		margin-left: 50px;
 		opacity: 0;
 	}
+}
+.zind {
+	z-index: 3;
 }
 </style>
