@@ -1,16 +1,28 @@
 <template lang="pug">
-.pa-5
+Flipper(:flipKey="focused").pa-5
 	.zg {{ date }}
 	.home
-		.bl.over(v-for="block in blocks")
-			Wave(:color="color" v-if="block.id === 0")
-			.hd 
-				.txt {{ block.title }}
-				.dig(:class="block.down ? '' : 'red--text'")
-					span(v-if="block.down") &darr;
-					span(v-if="!block.down" ) &uarr;
-					span {{ block.digit }}
-			.big {{ block.big }}
+		div(v-for="(block,index) in blocks" :key="index")
+			Flipped(:flipId="`item-${index}`")
+				.bl.over(@click="toggle(index)")
+					Wave(:color="color" v-if="block.id === 0")
+					.hd 
+						.txt {{ block.title }}
+						.dig(:class="block.down ? '' : 'red--text'")
+							span(v-if="block.down") &darr;
+							span(v-if="!block.down" ) &uarr;
+							span {{ block.digit }}
+					.big {{ block.big }}
+			div(v-if="focused !== null")
+				Flipped(:flipId="`item-${index}`")
+					.block(@click="toggle(index)" v-if="index === focused")
+						h2 Hello
+						h2 Hello
+						h2 Hello
+						h2 Hello
+						h2 Hello
+						h2 Hello
+	.home
 		.bl
 			.hd
 				.txt Исполнительская дисциплина
@@ -27,6 +39,7 @@
 					v-icon mdi-star-outline
 					span Избранное
 			listFavorites
+
 
 </template>
 
@@ -49,6 +62,7 @@ export default {
 	},
 	data: () => ({
 		date: '',
+		focused: null,
 		color: '#6DAE50',
 		blocks: [
 			{ id: 0, title: 'Новые задания', digit: 7, down: true, big: 12 },
@@ -72,6 +86,11 @@ export default {
 		},
 	}),
 	methods:{
+		toggle (e) {
+			if (this.focused !== null) {
+				this.focused = null
+			} else this.focused = e
+		},
 	},
 	mounted () {
 		var date = new Date()
@@ -109,6 +128,17 @@ export default {
 		box-shadow: 0 3px 10px #ccc;
 		border: 1px solid #dedede;
 	}
+}
+.block {
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	width: 700px;
+	border-radius: 4px;
+	padding: 1rem;
+	z-index: 7;
 }
 .hd {
 	display: flex;
