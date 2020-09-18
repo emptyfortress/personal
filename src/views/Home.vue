@@ -1,60 +1,33 @@
 <template lang="pug">
-Flipper(:flipKey="focused").pa-5
+.pa-5
 	.zg {{ date }}
-	.home
-		div(v-for="(block,index) in blocks" :key="index")
-			Flipped(:flipId="`item-${index}`")
-				.bl.over(@click="toggle(index)")
-					Wave(:color="color" v-if="block.id === 0")
-					Flipped(:inverseFlipId="`item-${index}`")
+	Flipper(:flipKey="focused" spring="stiff")
+		.home
+			div(v-for="(block,index) in blocks")
+				Flipped(:flipId="`box-${index}`")
+					.bl.over(@click="toggle(index)")
+						Wave(:color="color" v-if="index === 0")
 						.hd
-							Flipped(:flipId="`hd-${index}`" translate)
-								.txt {{ block.title }}
-							Flipped(:flipId="`digit-${index}`" translate)
-								.dig(:class="block.down ? '' : 'red--text'")
-									span(v-if="block.down") &darr;
-									span(v-if="!block.down" ) &uarr;
-									span {{ block.digit }}
-					Flipped(:flipId="`big-${index}`")
+							.txt {{ block.title }}
+							.dig(:class="block.down ? '' : 'red--text'")
+								span(v-if="block.down") &darr;
+								span(v-else) &uarr;
+								span {{ block.digit }}
 						.big {{ block.big }}
-			div(v-if="focused !== null")
-				Flipped(:flipId="`item-${index}`" @on-start="handleStart")
-					.block(@click="toggle(index)" v-if="index === focused")
-						Flipped(:inverseFlipId="`item-${index}`")
-							.hd
-								Flipped(:flipId="`hd-${index}`" translate)
-									.txt {{ block.title }}
-								Flipped(:flipId="`digit-${index}`" translate)
-									.dig(:class="block.down ? '' : 'red--text'")
-										span(v-if="block.down") &darr;
-										span(v-if="!block.down" ) &uarr;
-										span {{ block.digit }}
-								v-spacer
-								v-btn(icon @click="toggle(index)")
-									v-icon mdi-close
+				Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
+					.block(@click="toggle(index)")
+						.hd
+							.txt {{ block.title }}
+							.dig(:class="block.down ? '' : 'red--text'")
+								span(v-if="block.down") &darr;
+								span(v-else) &uarr;
+								span {{ block.digit }}
+							v-spacer
+							v-btn(icon)
+								v-icon mdi-close
 						.mygrid
-							.gridd(v-for="n in 7")
-						Flipped(:flipId="`big-${index}`")
-							.big {{ block.big }}
-	.home
-		.bl
-			.hd
-				.txt Исполнительская дисциплина
-				.dig &uarr; 3
-			div
-				apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
-		.bl
-			.hd
-				.txt Задания у подчиненных
-			UserLoad
-		.bl
-			.hd
-				.txt
-					v-icon mdi-star-outline
-					span Избранное
-			listFavorites
-
-
+							.gridd(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
+						.big {{ block.big }}
 </template>
 
 <script>
@@ -63,9 +36,7 @@ import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
-// import anime from 'animejs'
-
-
+import anime from 'animejs'
 
 export default {
 	components: {
@@ -109,11 +80,21 @@ export default {
 		},
 		handleStart ({ el }) {
 			const squares = el.querySelectorAll('.gridd')
-			console.log(squares)
+			anime({
+				targets: squares,
+				translateX: '-=50',
+				opacity: 1,
+				delay: anime.stagger(100, { start: 500, easing: 'easeInQuad' })
+			})
+			// anime({
+			// 	targets: squares,
+			// 	opacity: 1,
+			// 	delay: anime.stagger(100, { easing: 'easeInQuad' })
+			// })
 			// anime({
 			// 	targets: squares,
 			// 	opacity: [0, 1],
-			// 	delay: anime.stagger(40, { easing: 'easeINQuad' })
+			// 	delay: anime.stagger(40, { easing: 'easeInQuad' })
 			// })
 			// const pic = el.querySelector('.note')
 			// anime({
@@ -175,7 +156,6 @@ export default {
 	transform: translate(-50%, -50%);
 	background: #fff;
 	width: 60%;
-	/* height: 500px; */
 	border-radius: 4px;
 	padding: 1rem;
 	z-index: 7;
@@ -212,8 +192,10 @@ export default {
 	gap: 4px;
 	.gridd {
 		height: 30px;
-		background: #ccc;
-		/* opacity: 0; */
+		width: 100%;
+		/* background: #ccc; */
+		margin-left: 50px;
+		opacity: 0;
 	}
 }
 </style>
