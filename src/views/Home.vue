@@ -6,22 +6,32 @@ Flipper(:flipKey="focused").pa-5
 			Flipped(:flipId="`item-${index}`")
 				.bl.over(@click="toggle(index)")
 					Wave(:color="color" v-if="block.id === 0")
-					.hd 
-						.txt {{ block.title }}
-						.dig(:class="block.down ? '' : 'red--text'")
-							span(v-if="block.down") &darr;
-							span(v-if="!block.down" ) &uarr;
-							span {{ block.digit }}
+					Flipped(:inverseFlipId="`item-${index}`")
+						.hd
+							Flipped(:flipId="`hd-${index}`" translate)
+								.txt {{ block.title }}
+							Flipped(:flipId="`digit-${index}`" translate)
+								.dig(:class="block.down ? '' : 'red--text'")
+									span(v-if="block.down") &darr;
+									span(v-if="!block.down" ) &uarr;
+									span {{ block.digit }}
 					.big {{ block.big }}
 			div(v-if="focused !== null")
 				Flipped(:flipId="`item-${index}`")
 					.block(@click="toggle(index)" v-if="index === focused")
-						h2 Hello
-						h2 Hello
-						h2 Hello
-						h2 Hello
-						h2 Hello
-						h2 Hello
+						Flipped(:inverseFlipId="`item-${index}`")
+							.hd
+								Flipped(:flipId="`hd-${index}`" translate)
+									.txt {{ block.title }}
+								Flipped(:flipId="`digit-${index}`" translate)
+									.dig(:class="block.down ? '' : 'red--text'")
+										span(v-if="block.down") &darr;
+										span(v-if="!block.down" ) &uarr;
+										span {{ block.digit }}
+								v-spacer
+								v-btn(icon @click="toggle(index)")
+									v-icon mdi-close
+						.big {{ block.big }}
 	.home
 		.bl
 			.hd
@@ -124,6 +134,10 @@ export default {
 	overflow: hidden;
 	border: 1px solid #fff;
 	cursor: pointer;
+	.hd {
+		display: flex;
+		justify-content: space-between;
+	}
 	&.over:hover {
 		box-shadow: 0 3px 10px #ccc;
 		border: 1px solid #dedede;
@@ -132,17 +146,28 @@ export default {
 .block {
 	position: fixed;
 	left: 50%;
-	top: 40%;
+	top: 50%;
 	transform: translate(-50%, -50%);
 	background: #fff;
-	width: 700px;
+	width: 60%;
+	height: 500px;
 	border-radius: 4px;
 	padding: 1rem;
 	z-index: 7;
-}
-.hd {
-	display: flex;
-	justify-content: space-between;
+	box-shadow: 0 3px 10px #ccc;
+	border: 1px solid #dedede;
+	.hd {
+		display: flex;
+		justify-content: space-between;
+	}
+	.dig {
+		margin-top: 7px;
+		/* margin-right: 1rem; */
+	}
+	.txt {
+		font-size: 1.3rem;
+		margin-right: 2rem;
+	}
 }
 .big {
 	font-size: 2.3rem;
