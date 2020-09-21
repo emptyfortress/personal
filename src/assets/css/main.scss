@@ -9,11 +9,64 @@
 	color: #666;
 }
 
-.my  {
+.my {
 	.v-label {
 		font-size: .85rem;
 	}
 	.v-input__control {
 		height: 20px;
 	}
+}
+
+.tabs {
+	width: 100%;
+	margin-bottom: 6rem;
+	transition: all 0.3s ease;
+	border-collapse: collapse;
+	th {
+		height: 2.5rem;
+		position: sticky;
+		top: 0;
+		text-transform: capitalize;
+		font-size: 0.75rem;
+		text-align: left;
+		padding: 0 1rem;
+		z-index: 3;
+	}
+	.ro {
+		height: 3rem;
+		position: relative;
+	}
+	td {
+		padding: 0 1rem;
+		position: relative;
+	}
+}
+
+// datatables
+
+.mytab {
+	thead {
+	}
+}
+.head th {
+	background: #dedede !important;
+	height: 28px !important;
+	border-right: 1px solid #fff;
+	font-size: .7rem !important;
+	z-index: 3 !important;
+}
+
+.check {
+	height: 24px;
+	margin-top: 0;
+	padding-top: 0;
+}
+.sm.v-input--selection-controls:not(.v-input--hide-details) .v-input__slot {
+	margin-bottom: 0;
+}
+
+th.sm {
+	text-align: center;
+	width: 40px;
 }

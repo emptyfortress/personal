@@ -20,7 +20,7 @@
 								Flipped(:flipId="`big-${index}`")
 									.big {{ block.big }}
 				Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
-					.block(@click="toggle(index)")
+					.block()
 						Flipped(:inverseFlipId="`box-${index}`")
 							div
 								.hd
@@ -31,11 +31,9 @@
 											span(v-if="block.down") &darr;
 											span(v-else) &uarr;
 											span {{ block.digit }}
-									v-btn(fab color="primary" small).close
+									v-btn(fab color="dark" dark small @click="toggle(index)").close
 										v-icon mdi-close
-								//- .mygrid
 								listTable
-									//- .gridd.slide(v-for="n in 7") fuclaks laskjd laskj dlakjsd lakjs 
 								.d-flex.align-center.mt-5
 									Flipped(:flipId="`big-${index}`")
 										.big {{ block.big }}
@@ -116,7 +114,7 @@ export default {
 			const squares = el.querySelectorAll('.slide')
 			anime({
 				targets: squares,
-				translateX: [30, 0],
+				translateY: [30, 0],
 				opacity: [0, 1],
 				delay: anime.stagger(120, { start: 500, easing: 'easeInQuad' })
 			})
@@ -216,16 +214,6 @@ export default {
 }
 .dig {
 	color: green;
-}
-.mygrid {
-	display: grid;
-	grid-direction: column;
-	gap: 4px;
-	.gridd {
-		height: 30px;
-		width: 100%;
-		opacity: 0;
-	}
 }
 .zind {
 	z-index: 3;

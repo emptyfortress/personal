@@ -1,34 +1,37 @@
 <template lang="pug">
-table.listtable
-	thead
-		tr.slide
-			th zag
-			th zag
-			th zag
-			th zag
-	tbody
-		tr(v-for="n in 7").slide
-			td one
-			td one
-			td one
-			td one
+v-simple-table(fixed-header height="400").mytab
+	template(v-slot:default)
+		thead
+			tr.head
+				th.sm
+					v-checkbox.check
+				th(v-for="header in headers") {{ header.text }}
+		tbody
+			tr(v-for="item in items" :key="item.id").slide
+				td.sm
+					v-checkbox.check
+				td fuck
+				td fuck
+				td fuck
+				td fuck
 </template>
 
 <script>
+import {headers, items} from '@/data.js'
 
 export default {
 	data: () => ({
-		
+		singleselect: false,
+		headers,
+		items,
 	}),
 }
 
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/css/colors.scss';
-
-.listtable {
-	width: 100%;
-	margin-top: 1rem;
+/* @import '@/assets/css/colors.scss'; */
+.mytab {
+	margin-top: 2rem;
 }
 </style>
