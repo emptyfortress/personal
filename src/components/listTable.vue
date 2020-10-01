@@ -4,12 +4,12 @@ v-simple-table(fixed-header height="400").mytab
 		thead
 			tr.head
 				th.sm
-					v-checkbox.check
+					v-simple-checkbox.check
 				th(v-for="header in headers") {{ header.text }}
 		tbody
-			tr(v-for="item in items" :key="item.id").slide
+			tr(v-for="(item, index) in items" :key="index").slide
 				td.sm
-					v-checkbox.check
+					v-simple-checkbox(v-model="selection[index]" color="primary").check
 				td fuck
 				td fuck
 				td fuck
@@ -24,6 +24,7 @@ export default {
 		singleselect: false,
 		headers,
 		items,
+		selection: [],
 	}),
 }
 
