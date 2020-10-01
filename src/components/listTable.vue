@@ -5,7 +5,10 @@ v-simple-table(fixed-header height="400").mytab
 			tr.head
 				th.sm
 					v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
-				th(v-for="header in headers" @click="setSort(header.value)" ) {{ header.text }}
+				th(v-for="header in headers" @click="setSort(header.value)" :class="sortKey === header.value ? 'active' : ''" )
+					span {{ header.text }}
+					span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
+					span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
 		tbody
 			tr(v-for="item in results" :key="item.id").slide
 				td.sm
@@ -26,7 +29,8 @@ export default {
 		headers,
 		items,
 		all: false,
-		sortKey: 'id',
+		sortKey: 'deadline',
+		reverse: false,
 		results: [],
 	}),
 	created () {
@@ -69,11 +73,12 @@ export default {
 			}
 		},
 		setSort (e) {
-			console.log(e)
 			if (this.sortKey === e) {
+				this.reverse = !this.reverse
 				return this.results.reverse()
 			} else {
 				this.sortKey = e
+				this.reverse = false
 				return this.results = [ ...this.sorted ]
 			}
 		}
@@ -95,5 +100,11 @@ export default {
 	&:hover {
 		text-decoration: underline;
 	}
+}
+th {
+	font-weight: normal;
+}
+th.active {
+	font-weight: bold;
 }
 </style>
