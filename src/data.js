@@ -1,32 +1,32 @@
 const headers = [
 	{
 		id: 0,
-		text: 'id',
+		text: 'Срок',
 		align: 'start',
 		sortable: true,
-		value: 'id',
+		value: 'deadline',
 	},
 	{
 		id: 1,
-		text: 'header 1',
+		text: 'Автор',
 		align: 'start',
 		sortable: true,
-		value: 'number',
+		value: 'executor',
 	},
 	{
 		id: 2,
-		text: 'header 2',
+		text: 'Тема',
 		align: 'start',
 		sortable: true,
-		value: 'status',
-	},
-	{
-		id: 3,
-		text: 'header 3',
-		align: 'start',
-		sortable: false,
 		value: 'title',
 	},
+	// {
+	// 	id: 3,
+	// 	text: 'header 3',
+	// 	align: 'start',
+	// 	sortable: false,
+	// 	value: 'title',
+	// },
 ]
 const items = [
 	{
