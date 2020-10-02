@@ -1,7 +1,7 @@
 const headers = [
 	{
 		id: 0,
-		text: 'Тип',
+		text: 'Вид',
 		align: 'start',
 		sortable: true,
 		value: 'type',
@@ -27,13 +27,6 @@ const headers = [
 		sortable: true,
 		value: 'title',
 	},
-	// {
-	// 	id: 3,
-	// 	text: 'header 3',
-	// 	align: 'start',
-	// 	sortable: false,
-	// 	value: 'title',
-	// },
 ]
 const items = [
 	{

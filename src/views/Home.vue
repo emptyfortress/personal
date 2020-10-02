@@ -36,7 +36,7 @@
 								listTable(v-if="block.id === 0 && tasks.length")
 
 								v-slide-x-transition(mode="out-in")
-									.empty(v-if="!tasks.length")
+									.empty(v-if="!tasks.length" @click="toggle(index)")
 										img(src="@/assets/img/man.svg")
 										div Нет новых заданий
 								.d-flex.align-center.mt-5
@@ -45,8 +45,10 @@
 											span(v-if="selected !== 0") {{ selected }}
 											span(v-if="selected !== 0").iz из
 											span {{ total }} 
-									v-btn(depressed v-if="selected !== 0" @click="read").ml-6.mt-3 {{ block.but }}
-									v-btn(depressed  v-if="selected !== 0").ml-2.mt-3 {{ block.but1}}
+									v-slide-x-transition(mode="out-in")
+										v-btn(depressed v-if="selected !== 0" @click="read").ml-6.mt-3 {{ block.but }}
+									v-slide-x-transition(mode="out-in")
+										v-btn(depressed  v-if="selected !== 0").ml-2.mt-3 {{ block.but1}}
 	.home.one
 		.bl
 			.hd
@@ -252,6 +254,7 @@ export default {
 	font-size: 1.0rem;
 }
 .empty {
+	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
