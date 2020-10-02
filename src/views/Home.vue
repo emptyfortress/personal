@@ -33,7 +33,7 @@
 											span {{ block.digit }}
 									v-btn(fab color="dark" dark small @click="toggle(index)").close
 										v-icon mdi-close
-								listTable
+								listTable(v-if="block.id !== 1")
 								.d-flex.align-center.mt-5
 									Flipped(:flipId="`big-${index}`")
 										.big {{ block.big }}

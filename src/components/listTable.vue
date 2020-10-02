@@ -13,17 +13,18 @@ v-simple-table(fixed-header height="400").mytab
 			tr(v-for="item in results" :key="item.id").slide
 				td.sm
 					v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
+				td.nowrap {{ item.type }}
 				td.nowrap {{ item.deadline }}
 				td.nowrap {{ item.executor }}
 				td.py-2
 					router-link(to="/").my {{ item.title }}
-				//- td fuck
 </template>
 
 <script>
 import {headers, items} from '@/data.js'
 
 export default {
+	props: ['type'],
 	data: () => ({
 		singleselect: false,
 		headers,
