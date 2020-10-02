@@ -9,7 +9,7 @@ v-simple-table(fixed-header height="400").mytab
 					span {{ header.text }}
 					span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
 					span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
-		tbody
+		transition-group( name="list-complete" tag="tbody").mysort
 			tr(v-for="item in results" :key="item.id").slide
 				td.sm
 					v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
@@ -76,13 +76,13 @@ export default {
 		setSort (e) {
 			if (this.sortKey === e) {
 				this.reverse = !this.reverse
-				return this.results.reverse()
+				this.results.reverse()
 			} else {
 				this.sortKey = e
 				this.reverse = false
-				return this.results = [ ...this.sorted ]
+				this.results = [ ...this.sorted ]
 			}
-		}
+		},
 	}
 }
 
@@ -107,5 +107,10 @@ th {
 }
 th.active {
 	font-weight: bold;
+	color: black !important;
 }
+.slide {
+	transition: transform .2s;
+}
+
 </style>
