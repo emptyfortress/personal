@@ -10,7 +10,7 @@ v-simple-table(fixed-header height="400").mytab
 					span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
 					span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
 		transition-group( name="list-complete" tag="tbody").mysort
-			tr(v-for="item in results" :key="item.id").slide
+			tr(v-for="item in sorted" :key="item.id" :class="{selected : item.selected}").slide
 				td.sm
 					v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
 				td.nowrap {{ item.type }}
@@ -32,15 +32,25 @@ export default {
 		all: false,
 		sortKey: 'deadline',
 		reverse: false,
-		results: [],
+		// results: [],
 	}),
 	created () {
-		this.results = [...this.sorted]
+		// this.$store.commit('setTasks', this.items)
+		// this.results = [...this.sorted]
 	},
 	computed: {
+		// results () {
+		// 	return [...this.sorted]
+		// },
+		tasks () {
+			return this.$store.getters.tasks
+		},
+		selected () {
+			return this.sorted.filter( item => item.selected).length
+		},
 		sorted () {
 			let key = this.sortKey
-			return this.items.slice().sort((a, b) => {
+			return this.tasks.slice().sort((a, b) => {
 				if (a[key] > b.[key]) {
 					return 1
 				}
@@ -68,21 +78,26 @@ export default {
 			if (this.all) {
 				this.items.map((item) => {return item.selected = false })
 				this.all = false
+				// this.selectItem()
 			} else {
 				this.items.map((item) => {return item.selected = true })
 				this.all = true
+				// this.selectItem()
 			}
 		},
 		setSort (e) {
 			if (this.sortKey === e) {
 				this.reverse = !this.reverse
-				this.results.reverse()
+				this.sorted.reverse()
 			} else {
 				this.sortKey = e
 				this.reverse = false
-				this.results = [ ...this.sorted ]
+				this.sorted = [ ...this.sorted ]
 			}
 		},
+		// selectItem () {
+		// 	this.$emit('change', this.selected)
+		// }
 	}
 }
 
@@ -92,6 +107,7 @@ export default {
 /* @import '@/assets/css/colors.scss'; */
 .mytab {
 	margin-top: 2rem;
+	border-bottom: 1px solid #ccc;
 }
 .nowrap {
 	white-space: nowrap;
@@ -111,6 +127,12 @@ th.active {
 }
 .slide {
 	transition: transform .2s;
+}
+.selected {
+	background: #e4f2ff;
+	&:hover {
+		background: darken(#e4f2ff, 5%) !important;
+	}
 }
 
 </style>

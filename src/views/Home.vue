@@ -6,7 +6,7 @@
 			div(v-for="(block,index) in blocks")
 				Flipped(:flipId="`box-${index}`")
 					.bl.over(@click="toggle(index)" :class="block.active ? 'zind' : ''")
-						Wave(:color="color" v-if="index === 0")
+						Wave(:color="color" v-if="index === 0 && tasks.length")
 						Flipped(:inverseFlipId="`box-${index}`")
 							div
 								.hd
@@ -18,9 +18,9 @@
 											span(v-else) &uarr;
 											span {{ block.digit }}
 								Flipped(:flipId="`big-${index}`")
-									.big {{ block.big }}
+									.big {{ total }}
 				Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
-					.block()
+					.block
 						Flipped(:inverseFlipId="`box-${index}`")
 							div
 								.hd
@@ -33,12 +33,20 @@
 											span {{ block.digit }}
 									v-btn(fab color="dark" dark small @click="toggle(index)").close
 										v-icon mdi-close
-								listTable(v-if="block.id !== 1")
+								listTable(v-if="block.id === 0 && tasks.length")
+
+								v-slide-x-transition(mode="out-in")
+									.empty(v-if="!tasks.length")
+										img(src="@/assets/img/man.svg")
+										div Нет новых заданий
 								.d-flex.align-center.mt-5
 									Flipped(:flipId="`big-${index}`")
-										.big {{ block.big }}
-									v-btn(depressed).ml-6.mt-3 {{ block.but }}
-									v-btn(depressed).ml-2.mt-3 Действие 1
+										.big
+											span(v-if="selected !== 0") {{ selected }}
+											span(v-if="selected !== 0").iz из
+											span {{ total }} 
+									v-btn(depressed v-if="selected !== 0" @click="read").ml-6.mt-3 {{ block.but }}
+									v-btn(depressed  v-if="selected !== 0").ml-2.mt-3 {{ block.but1}}
 	.home.one
 		.bl
 			.hd
@@ -66,6 +74,7 @@ import listFavorites from '@/components/listFavorites'
 import listTable from '@/components/listTable'
 import { Flipper, Flipped } from "vue-flip-toolkit"
 import anime from 'animejs'
+import {items} from '@/data.js'
 
 export default {
 	components: {
@@ -75,14 +84,15 @@ export default {
 		listFavorites,
 		Flipper,
 		Flipped,
-		listTable
+		listTable,
 	},
 	data: () => ({
 		date: '',
+		items,
 		focused: null,
 		color: '#6DAE50',
 		blocks: [
-			{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true, big: 12, but: 'Сбросить счетчик', but1: 'Прочитать все' },
+			{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true, big: 11, but: 'Прочитано', but1: 'Ознакомлен' },
 			{ id: 1, active: false, title: 'Срочные задания', digit: 3, down: true, big: 2, but: 'Прочитать все' },
 			{ id: 2, active: false, title: 'Контроль', digit: 5, down: false, big: 9, but: 'Прочитать все' },
 		],
@@ -102,7 +112,25 @@ export default {
 			labels: ['Производство'],
 		},
 	}),
+	computed: {
+		tasks () {
+			return this.$store.getters.tasks
+		},
+		total () {
+			return this.$store.getters.tasks.length
+		},
+		selected () {
+			return this.tasks.filter( item => item.selected).length
+		}
+	},
+	created () {
+		this.$store.commit('setTasks', this.items)
+	},
 	methods:{
+		read () {
+			let temp = this.tasks.filter( item => !item.selected )
+			this.$store.commit('setTasks', temp)
+		},
 		toggle (e) {
 			this.blocks.map( item => item.active = false)
 			this.blocks[e].active = true
@@ -179,6 +207,7 @@ export default {
 	top: 100px;
 	background: #fff;
 	width: 100%;
+	height: 594px;
 	border-radius: 4px;
 	padding: 2rem;
 	z-index: 7;
@@ -217,5 +246,21 @@ export default {
 }
 .zind {
 	z-index: 3;
+}
+.iz {
+	margin: 0 .5rem;
+	font-size: 1.0rem;
+}
+.empty {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 400px;
+	margin-top: 2rem;
+	img {
+		width: 150px;
+		display: block;
+	}
 }
 </style>
