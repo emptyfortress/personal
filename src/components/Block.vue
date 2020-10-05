@@ -5,15 +5,16 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 			div
 				.hd
 					Flipped(:flipId="`hd-${index}`")
-						.txt {{ block.title }}
+						.txt {{ blocks[index].title }}
 					Flipped(:flipId="`dig-${index}`")
-						.dig(:class="block.down ? '' : 'red--text'")
-							span(v-if="block.down") &darr;
+						.dig(:class="blocks[index].down ? '' : 'red--text'")
+							span(v-if="blocks[index].down") &darr;
 							span(v-else) &uarr;
-							span {{ block.digit }}
+							span {{ blocks[index].digit }}
 					v-btn(fab color="dark" dark small @click="toggle(index)").close
 						v-icon mdi-close
-				listTable(v-if="block.id === 0 && tasks.length")
+
+				listTable(v-if="index === 0 && tasks.length")
 
 				v-slide-x-transition(mode="out-in")
 					.empty(v-if="!tasks.length" @click="toggle(index)")
@@ -24,19 +25,82 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 						.big
 							span(v-if="selected !== 0") {{ selected }}
 							span(v-if="selected !== 0").iz из
-							span {{ total }} 
+							span {{ total }}
 					v-slide-x-transition(mode="out-in")
-						v-btn(depressed v-if="selected !== 0" @click="read").ml-6.mt-3 {{ block.but }}
+						v-btn(depressed v-if="selected !== 0" @click="read").ml-6 {{ blocks[index].but }}
 					v-slide-x-transition(mode="out-in")
-						v-btn(depressed  v-if="selected !== 0").ml-2.mt-3 {{ block.but1}}
+						v-btn(depressed  v-if="selected !== 0").ml-2 {{ blocks[index].but1}}
 </template>
 
 <script>
+import { Flipper, Flipped } from "vue-flip-toolkit"
+import listTable from '@/components/listTable'
+import anime from 'animejs'
+import { mapGetters } from 'vuex'
+
 
 export default {
+	props: ['index', 'focused'],
 	data() {
 		return {
+			blocks: [
+				{ id: 0, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен' },
+				{ id: 1, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все' },
+				{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все' },
+			],
 		}
+	},
+	computed: {
+		...mapGetters(['tasks']),
+		total () {
+			return this.$store.getters.tasks.length
+		},
+		selected () {
+			return this.tasks.filter( item => item.selected).length
+		}
+	},
+	components: {
+		Flipper,
+		Flipped,
+		listTable,
+	},
+	methods: {
+		read () {
+			let temp = this.tasks.filter( item => !item.selected )
+			this.$store.commit('setTasks', temp)
+		},
+		toggle (e) {
+			this.$emit('change', e)
+		},
+		handleStart ({ el }) {
+			const squares = el.querySelectorAll('.slide')
+			anime({
+				targets: squares,
+				translateY: [30, 0],
+				opacity: [0, 1],
+				delay: anime.stagger(120, { start: 500, easing: 'easeInQuad' })
+			})
+			const close = el.querySelector('.close')
+			anime({
+				targets: close,
+				opacity: [0, 1],
+				duration: 200,
+				rotate: 360,
+				scale: [0,1],
+				delay: 700,
+			})
+		}
+	},
+	created () {
+		const escapeHandler = (e) => {
+			if (e.key === 'Escape' && this.focused === this.index) {
+				this.toggle(this.index)
+			}
+		}
+		document.addEventListener('keydown', escapeHandler)
+		this.$once('hook:destroyed', () => {
+			document.removeEventListener('keydown', escapeHandler)
+		})
 	},
 }
 
@@ -45,4 +109,67 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/colors.scss';
 
+.block {
+	position: absolute;
+	left: 0;
+	top: 100px;
+	background: #fff;
+	width: 100%;
+	/* height: 594px; */
+	border-radius: 4px;
+	padding: 2rem;
+	z-index: 7;
+	box-shadow: 0 3px 10px #ccc;
+	border: 1px solid #dedede;
+	.hd {
+		display: flex;
+		justify-content: space-between;
+	}
+	.dig {
+		margin-top: 5px;
+	}
+	.txt {
+		font-size: 1.3rem;
+		margin-right: 2rem;
+	}
+	.close {
+		position: absolute;
+		top: -20px;
+		right: -20px;
+		/* opacity: 0; */
+	}
+}
+.big {
+	font-size: 2.3rem;
+	line-height: 100%;
+	margin-top: .5rem;
+	color: $accent;
+}
+.txt .v-icon {
+	transform: translateY(-3px);
+	margin-right: .5rem;
+}
+.dig {
+	color: green;
+}
+.zind {
+	z-index: 3;
+}
+.iz {
+	margin: 0 .5rem;
+	font-size: 1.0rem;
+}
+.empty {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 400px;
+	margin-top: 2rem;
+	img {
+		width: 150px;
+		display: block;
+	}
+}
 </style>

@@ -1,30 +1,32 @@
 <template lang="pug">
-v-simple-table(fixed-header height="400").mytab
-	template(v-slot:default)
-		thead
-			tr.head
-				th.sm
-					v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
-				th(v-for="header in headers" @click="setSort(header.value)" :class="sortKey === header.value ? 'active' : ''" )
-					span {{ header.text }}
-					span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
-					span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
-		transition-group( name="list-complete" tag="tbody").mysort
-			tr(v-for="item in sorted" :key="item.id" :class="{selected : item.selected}").slide
-				td.sm
-					v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
-				td.nowrap {{ item.type }}
-				td.nowrap {{ item.deadline }}
-				td.nowrap {{ item.executor }}
-				td.py-2
-					router-link(to="/").my {{ item.title }}
+div
+	Chips(:chips="chips" @select="setFilter")
+	v-simple-table(fixed-header height="400").mytab
+		template(v-slot:default)
+			thead
+				tr.head
+					th.sm
+						v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
+					th(v-for="header in headers" @click="setSort(header.value)" :class="sortKey === header.value ? 'active' : ''" )
+						span {{ header.text }}
+						span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
+						span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
+			transition-group( name="list-complete" tag="tbody").mysort
+				tr(v-for="item in filtered" :key="item.id" :class="{selected : item.selected}").slide
+					td.sm
+						v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
+					td.nowrap {{ item.type }}
+					td.nowrap {{ item.deadline }}
+					td.nowrap {{ item.executor }}
+					td.py-2
+						router-link(to="/").my {{ item.title }}
 </template>
 
 <script>
 import {headers, items} from '@/data.js'
+import Chips from '@/components/Chips'
 
 export default {
-	props: ['type'],
 	data: () => ({
 		singleselect: false,
 		headers,
@@ -32,21 +34,29 @@ export default {
 		all: false,
 		sortKey: 'deadline',
 		reverse: false,
-		// results: [],
+		chips: ['На исполнение', 'На ознакомление', 'На согласование' ],
+		filter: undefined,
 	}),
-	created () {
-		// this.$store.commit('setTasks', this.items)
-		// this.results = [...this.sorted]
+	components: {
+		Chips
 	},
 	computed: {
-		// results () {
-		// 	return [...this.sorted]
-		// },
 		tasks () {
 			return this.$store.getters.tasks
 		},
 		selected () {
 			return this.sorted.filter( item => item.selected).length
+		},
+		filtered () {
+			switch (this.filter) {
+			case 0:
+				return this.sorted.filter( item => item.type === 'На исполнение')
+			case 1:
+				return this.sorted.filter( item => item.type === 'На ознакомление')
+			case 2:
+				return this.sorted.filter( item => item.type === 'На согласование')
+			default: return this.sorted
+			}
 		},
 		sorted () {
 			let key = this.sortKey
@@ -74,15 +84,16 @@ export default {
 		}
 	},
 	methods: {
+		setFilter (e) {
+			return this.filter = e
+		},
 		setAll () {
 			if (this.all) {
 				this.items.map((item) => {return item.selected = false })
 				this.all = false
-				// this.selectItem()
 			} else {
 				this.items.map((item) => {return item.selected = true })
 				this.all = true
-				// this.selectItem()
 			}
 		},
 		setSort (e) {
@@ -95,9 +106,6 @@ export default {
 				this.sorted = [ ...this.sorted ]
 			}
 		},
-		// selectItem () {
-		// 	this.$emit('change', this.selected)
-		// }
 	}
 }
 
@@ -106,7 +114,7 @@ export default {
 <style scoped lang="scss">
 /* @import '@/assets/css/colors.scss'; */
 .mytab {
-	margin-top: 2rem;
+	margin-top: 1rem;
 	border-bottom: 1px solid #ccc;
 }
 .nowrap {
