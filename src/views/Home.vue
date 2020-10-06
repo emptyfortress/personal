@@ -18,7 +18,7 @@
 											span(v-else) &uarr;
 											span {{ block.digit }}
 								Flipped(:flipId="`big-${index}`")
-									.big {{ total }}
+									.big {{ total(index) }}
 				Block(:index="index" :focused="focused" @change="toggle(index)")
 	.home.one
 		.bl
@@ -45,31 +45,18 @@ import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
-import {items} from '@/data.js'
+import {items, bl} from '@/data.js'
 import Block from '@/components/Block'
 import { mapGetters } from 'vuex'
 
 
 export default {
-	components: {
-		apexchart: VueApexCharts,
-		Wave,
-		UserLoad,
-		listFavorites,
-		Flipper,
-		Flipped,
-		Block,
-	},
 	data: () => ({
 		date: '',
 		items,
+		bl,
 		focused: null,
 		color: '#6DAE50',
-		blocks: [
-			{ id: 0, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен' },
-			{ id: 1, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все' },
-			{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все' },
-		],
 		series: [70],
 		chartOptions: {
 			chart: {
@@ -86,17 +73,24 @@ export default {
 			labels: ['Производство'],
 		},
 	}),
+	components: {
+		apexchart: VueApexCharts,
+		Wave,
+		UserLoad,
+		listFavorites,
+		Flipper,
+		Flipped,
+		Block,
+	},
 	computed: {
-		...mapGetters(['tasks']),
-		total () {
-			return this.$store.getters.tasks.length
-		},
+		...mapGetters(['tasks', 'blocks']),
 		selected () {
 			return this.tasks.filter( item => item.selected).length
-		}
+		},
 	},
 	created () {
 		this.$store.commit('setTasks', this.items)
+		this.$store.commit('setBlocks', this.bl)
 	},
 	methods:{
 		toggle (e) {
@@ -106,6 +100,17 @@ export default {
 				this.focused = null
 			} else this.focused = e
 		},
+		total (e) {
+			switch (e) {
+			case 0:
+				return this.tasks.length
+			case 1:
+				return this.tasks.filter( item => item.urgent).length
+			case 2:
+				return this.tasks.filter( item => item.control).length
+			default: return 0
+			}
+		}
 	},
 	mounted () {
 		var date = new Date()

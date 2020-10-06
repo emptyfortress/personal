@@ -15,6 +15,8 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 						v-icon mdi-close
 
 				listTable(v-if="index === 0 && tasks.length")
+				Urgent(v-if="index === 1")
+				controlTable(v-if="index === 2")
 
 				v-slide-x-transition(mode="out-in")
 					.empty(v-if="!tasks.length" @click="toggle(index)")
@@ -25,7 +27,7 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 						.big
 							span(v-if="selected !== 0") {{ selected }}
 							span(v-if="selected !== 0").iz из
-							span {{ total }}
+							span {{ total(index) }}
 					v-slide-x-transition(mode="out-in")
 						v-btn(depressed v-if="selected !== 0" @click="read").ml-6 {{ blocks[index].but }}
 					v-slide-x-transition(mode="out-in")
@@ -35,6 +37,10 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 <script>
 import { Flipper, Flipped } from "vue-flip-toolkit"
 import listTable from '@/components/listTable'
+import controlTable from '@/components/controlTable'
+import Urgent from '@/components/Urgent'
+
+
 import anime from 'animejs'
 import { mapGetters } from 'vuex'
 
@@ -43,18 +49,10 @@ export default {
 	props: ['index', 'focused'],
 	data() {
 		return {
-			blocks: [
-				{ id: 0, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен' },
-				{ id: 1, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все' },
-				{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все' },
-			],
 		}
 	},
 	computed: {
-		...mapGetters(['tasks']),
-		total () {
-			return this.$store.getters.tasks.length
-		},
+		...mapGetters(['tasks', 'blocks']),
 		selected () {
 			return this.tasks.filter( item => item.selected).length
 		}
@@ -63,8 +61,21 @@ export default {
 		Flipper,
 		Flipped,
 		listTable,
+		controlTable,
+		Urgent,
 	},
 	methods: {
+		total (e) {
+			switch (e) {
+			case 0:
+				return this.tasks.length
+			case 1:
+				return this.tasks.filter( item => item.urgent).length
+			case 2:
+				return this.tasks.filter( item => item.control).length
+			default: return 0
+			}
+		},
 		read () {
 			let temp = this.tasks.filter( item => !item.selected )
 			this.$store.commit('setTasks', temp)
@@ -115,7 +126,6 @@ export default {
 	top: 100px;
 	background: #fff;
 	width: 100%;
-	/* height: 594px; */
 	border-radius: 4px;
 	padding: 2rem;
 	z-index: 7;

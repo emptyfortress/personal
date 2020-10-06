@@ -13,6 +13,7 @@ export default new Vuex.Store({
 		filterResults: [],
 		checked: [],
 		tasks: [],
+		blocks: [],
 	},
 	getters: {
 		drawer: state => { return state.drawer },
@@ -23,6 +24,7 @@ export default new Vuex.Store({
 		filterResults: state => { return state.filterResults },
 		checked: state => { return state.checked },
 		tasks: state => { return state.tasks },
+		blocks: state => { return state.blocks },
 	},
 	mutations: {
 		toggleDrawer (state) { state.drawer = !state.drawer },
@@ -34,6 +36,7 @@ export default new Vuex.Store({
 		setFilterResults (state, payload) { state.filterResults = payload },
 		setChecked (state, payload) { state.checked = payload },
 		setTasks (state, payload) { state.tasks = payload },
+		setBlocks (state, payload) { state.blocks = payload },
 	},
 	actions: {
 	},

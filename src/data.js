@@ -28,6 +28,36 @@ const headers = [
 		value: 'title',
 	},
 ]
+const headers1 = [
+	{
+		id: 0,
+		text: 'Исполнитель',
+		align: 'start',
+		sortable: true,
+		value: 'executor',
+	},
+	{
+		id: 1,
+		text: 'Статус',
+		align: 'start',
+		sortable: true,
+		value: 'executor',
+	},
+	{
+		id: 2,
+		text: 'Срок',
+		align: 'start',
+		sortable: true,
+		value: 'deadline',
+	},
+	{
+		id: 3,
+		text: 'Тема',
+		align: 'start',
+		sortable: true,
+		value: 'title',
+	},
+]
 const items = [
 	{
 		'id': 0,
@@ -39,6 +69,7 @@ const items = [
 		'status': 'Не начато',
 		'type': 'На исполнение',
 		'deadline': '2020-08-28',
+		'urgent': true,
 		'created': '2020-08-05',
 		'title': 'Об эксплуатации автоматизированной информационной системы государственного заказа Санкт-Петербурга',
 		'files': '3'
@@ -52,6 +83,7 @@ const items = [
 		'executor': 'Воробьев К.А.',
 		'status': 'В работе',
 		'type': 'На исполнение',
+		'control': true,
 		'deadline': '2020-08-17',
 		'created': '2020-08-07',
 		'title': 'О вводе в действие Перечня товаров, работ, услуг закупки которых осуществляются только у субъектов малого и среднего предпринимательства',
@@ -64,9 +96,12 @@ const items = [
 		'selected': false,
 		'author': '<Я>',
 		'executor': 'Соловьева А.А.',
-		'status': 'Не начато',
+		'status': 'Просрочено',
 		'type': 'На ознакомление',
+		'control': true,
 		'deadline': '2020-08-16',
+		'expired': true,
+		'urgent': true,
 		'created': '2020-08-13',
 		'title': 'Об организации осеннего месячника по благоустройству, озеленению и уборке городских территорий после летнего периода',
 		'files': '2'
@@ -81,6 +116,7 @@ const items = [
 		'status': 'Завершено',
 		'type': 'На согласование',
 		'deadline': '2020-08-14',
+		'urgent': true,
 		'created': '2020-08-06',
 		'title': 'О согласовании финансового плана Автобазы на 2019 год',
 		'files': '28'
@@ -94,6 +130,7 @@ const items = [
 		'executor': 'Синичкина Г.И.',
 		'status': 'Не начато',
 		'type': 'На исполнение',
+		'control': true,
 		'deadline': '2020-08-24',
 		'created': '2020-08-05',
 		'title': 'Об организации осеннего месячника по благоустройству, озеленению и уборке городских территорий после летнего периода',
@@ -108,7 +145,8 @@ const items = [
 		'executor': 'Воробьев К.А.',
 		'status': 'В работе',
 		'type': 'На согласование',
-		'deadline': '2020-08-19',
+		'control': true,
+		'deadline': '2020-08-18',
 		'created': '2020-07-21',
 		'title': 'Протокол совещания по вопросу выполнения третьей очереди работ по созданию ГИС СПб 27.09.2020 № ***',
 		'files': '1'
@@ -121,6 +159,7 @@ const items = [
 		'author': 'Петров',
 		'executor': 'Воробьев К.А.',
 		'status': 'В работе',
+		'control': true,
 		'type': 'На ознакомление',
 		'deadline': '2020-08-26',
 		'created': '2020-08-12',
@@ -137,6 +176,7 @@ const items = [
 		'status': 'Делегировано',
 		'type': 'На исполнение',
 		'deadline': '2020-08-27',
+		'urgent': true,
 		'created': '2020-08-11',
 		'title': 'О вызове представителя',
 		'files': '3'
@@ -150,7 +190,9 @@ const items = [
 		'executor': 'Синичкина Г.И.',
 		'status': 'Завершено',
 		'type': 'На исполнение',
+		'control': true,
 		'deadline': '2020-08-17',
+		'urgent': true,
 		'created': '2020-08-12',
 		'title': 'Совещание по вопросу исполнения договора от 24.06.2015 № *** на оказание услуги по размещению кабелей на территории Петербургского метрополитена и их техническому обслуживанию, тзаключенного с ПАО Мегфон',
 		'files': '8'
@@ -162,9 +204,11 @@ const items = [
 		'selected': false,
 		'author': '<Я>',
 		'executor': 'Воробьев К.А.',
-		'status': 'В работе',
+		'status': 'Просрочено',
 		'type': 'На ознакомление',
 		'deadline': '2020-08-04',
+		'control': true,
+		'expired': true,
 		'created': '2020-08-13',
 		'title': 'О срабатывании автоматического выключателя SF58',
 		'files': ''
@@ -179,13 +223,19 @@ const items = [
 		'status': 'На проверке',
 		'type': 'На исполнение',
 		'deadline': '2020-08-19',
+		'urgent': true,
 		'created': '2020-08-05',
 		'title': 'О рассмотрении РД по ЛПЛ',
 		'files': ''
 	},
+]
 
+const bl = [
+	{ id: 0, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен', },
+	{ id: 1, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все', },
+	{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все', },
 ]
 
 export {
-	headers, items
+	headers, headers1, items, bl
 }

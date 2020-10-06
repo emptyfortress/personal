@@ -1,35 +1,37 @@
 <template lang="pug">
 div
-	Chips(:chips="chips" @select="setFilter").slide
+	//- Chips(:chips="chips" @select="setFilter")
 	v-simple-table(fixed-header height="400").mytab
 		template(v-slot:default)
 			thead.slide
 				tr.head
-					th.sm
-						v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
-					th(v-for="header in headers" @click="setSort(header.value)" :class="sortKey === header.value ? 'active' : ''" )
+					//- th.sm
+					//- 	v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
+					th(v-for="header in headers1" @click="setSort(header.value)" :class="sortKey === header.value ? 'active' : ''" )
 						span {{ header.text }}
 						span(v-if="sortKey === header.value && !reverse").ml-2 &darr;
 						span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
 			transition-group( name="list-complete" tag="tbody").mysort
-				tr(v-for="item in filtered" :key="item.id" :class="{selected : item.selected}").slide
-					td.sm
-						v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
-					td.nowrap {{ item.type }}
-					td.nowrap {{ item.deadline }}
+				tr(v-for="item in sorted" :key="item.id").slide
+					//- td.sm
+					//- 	v-simple-checkbox(v-model="item.selected" color="primary" v-ripple).check
 					td.nowrap {{ item.executor }}
+					td(:class="exp(item)").nowrap {{ item.status }}
+					td.nowrap 
+						span(:class="{active : item.expired}") {{ item.deadline }}
+						v-icon(color="red" size="18" v-if="item.expired").ml-2 mdi-calendar-clock
 					td.py-2
 						router-link(to="/").my {{ item.title }}
 </template>
 
 <script>
-import {headers, items} from '@/data.js'
+import {headers1, items} from '@/data.js'
 import Chips from '@/components/Chips'
 
 export default {
 	data: () => ({
 		singleselect: false,
-		headers,
+		headers1,
 		items,
 		all: false,
 		sortKey: 'deadline',
@@ -42,21 +44,7 @@ export default {
 	},
 	computed: {
 		tasks () {
-			return this.$store.getters.tasks
-		},
-		selected () {
-			return this.sorted.filter( item => item.selected).length
-		},
-		filtered () {
-			switch (this.filter) {
-			case 0:
-				return this.sorted.filter( item => item.type === 'На исполнение')
-			case 1:
-				return this.sorted.filter( item => item.type === 'На ознакомление')
-			case 2:
-				return this.sorted.filter( item => item.type === 'На согласование')
-			default: return this.sorted
-			}
+			return this.$store.getters.tasks.filter( item => item.control )
 		},
 		sorted () {
 			let key = this.sortKey
@@ -72,29 +60,14 @@ export default {
 				}
 			})
 		},
-		indeterminate () {
-			let sel = this.items.reduce((total, item) => {
-				if (item.selected === true) {
-					return total += 1
-				} else return total
-			}, 0)
-			if (sel > 0 && !this.all) {
-				return true
-			} else return false
-		}
 	},
 	methods: {
-		setFilter (e) {
-			return this.filter = e
-		},
-		setAll () {
-			if (this.all) {
-				this.items.map((item) => {return item.selected = false })
-				this.all = false
-			} else {
-				this.items.map((item) => {return item.selected = true })
-				this.all = true
-			}
+		exp (e) {
+			if (e.expired) {
+				return 'active'
+			} else if (e.status === 'Завершено') {
+				return 'finished'
+			} else return
 		},
 		setSort (e) {
 			if (this.sortKey === e) {
@@ -141,6 +114,12 @@ th.active {
 	&:hover {
 		background: darken(#e4f2ff, 5%) !important;
 	}
+}
+.active {
+	color: red;
+}
+.finished {
+	color: green;
 }
 
 </style>
