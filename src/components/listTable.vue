@@ -23,14 +23,13 @@ div
 </template>
 
 <script>
-import {headers, items} from '@/data.js'
+import {headers} from '@/data.js'
 import Chips from '@/components/Chips'
 
 export default {
 	data: () => ({
 		singleselect: false,
 		headers,
-		items,
 		all: false,
 		sortKey: 'deadline',
 		reverse: false,
@@ -73,7 +72,7 @@ export default {
 			})
 		},
 		indeterminate () {
-			let sel = this.items.reduce((total, item) => {
+			let sel = this.tasks.reduce((total, item) => {
 				if (item.selected === true) {
 					return total += 1
 				} else return total
@@ -89,10 +88,10 @@ export default {
 		},
 		setAll () {
 			if (this.all) {
-				this.items.map((item) => {return item.selected = false })
+				this.tasks.map((item) => {return item.selected = false })
 				this.all = false
 			} else {
-				this.items.map((item) => {return item.selected = true })
+				this.tasks.map((item) => {return item.selected = true })
 				this.all = true
 			}
 		},
