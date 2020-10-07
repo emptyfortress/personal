@@ -11,42 +11,27 @@
 							div
 								.hd
 									Flipped(:flipId="`hd-${index}`")
-										.txt {{ block.title }}
-									Flipped(:flipId="`dig-${index}`")
+										.txt
+											v-icon(v-if="index === 5").mr-2 mdi-star-outline
+											span {{ block.title }}
+									Flipped(:flipId="`dig-${index}`" v-if="block.digit")
 										.dig(:class="block.down ? '' : 'red--text'")
 											span(v-if="block.down") &darr;
 											span(v-else) &uarr;
 											span {{ block.digit }}
-								Flipped(:flipId="`big-${index}`")
+								Flipped(:flipId="`big-${index}`" v-if="index < 3")
 									.big {{ total(index) }}
-				Block(:index="index" :focused="focused" @change="toggle(index)")
-	Flipper(:flipKey="focused1" spring="stiff")
-		.home.one
-			div(v-for="(block,index) in bigblocks" :key="index")
-				Flipped(:flipId="`big-${index}`")
-					.bl.over(@click="togglebig(index)")
-						Flipped(:inverseFlipId="`big-${index}`")
-							.hd
-								.txt {{block.title}}
-								.dig(v-if="block.digit") &uarr; {{block.digit}}
-				BigBlock(:index="index" :focused1="focused1")
 
-		//- .bl
-		//- 	.hd
-		//- 		.txt Исполнительская дисциплина
-		//- 		.dig &uarr; 3
-		//- 	div
-		//- 		apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
-		//- .bl
-		//- 	.hd
-		//- 		.txt Задания у подчиненных
-		//- 	UserLoad
-		//- .bl
-		//- 	.hd
-		//- 		.txt
-		//- 			v-icon mdi-star-outline
-		//- 			span Избранное
-		//- 	listFavorites
+								Flipped(:flipId="graf" v-if="index === 3")
+									apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
+
+								Flipped(:flipId="people" v-if="index === 4")
+									UserLoad
+
+								Flipped(:flipId="fav" v-if="index === 5")
+									listFavorites
+
+				Block(:block="block" :index="index" :focused="focused" @change="toggle(index)")
 </template>
 
 <script>
@@ -148,9 +133,9 @@ export default {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 1rem;
-	&.one {
-		margin-top: 1rem;
-	}
+	/* &.one { */
+	/* 	margin-top: 1rem; */
+	/* } */
 }
 .zg {
 	text-align: center;
@@ -185,24 +170,11 @@ export default {
 	color: green;
 }
 .zind {
-	z-index: 3;
+	z-index: 12;
 }
 .bell {
 	position: absolute;
 	bottom: 1rem;
 	right: 1rem;
-}
-.block {
-	position: absolute;
-	left: 0;
-	top: 100px;
-	background: #fff;
-	width: 100%;
-	height: 500px;
-	border-radius: 4px;
-	padding: 2rem;
-	z-index: 7;
-	box-shadow: 0 3px 10px #ccc;
-	border: 1px solid #dedede;
 }
 </style>

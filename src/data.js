@@ -234,10 +234,13 @@ const bl = [
 	{ id: 0, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен', },
 	{ id: 1, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все', },
 	{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все', },
+	{ id: 3, title: 'Исполнительская дисциплина', digit: 3, down: true },
+	{ id: 4, title: 'Задания у подчиненных', },
+	{ id: 5, title: 'Избранное', },
 ]
 
 const bigbl = [
-	{ id: 0, title: 'Исполнительская дисциплина', digit: 3, down: false },
+	{ id: 0, title: 'Исполнительская дисциплина', digit: 3, down: true },
 	{ id: 1, title: 'Задания у подчиненных', },
 	{ id: 2, title: 'Избранное', },
 ]

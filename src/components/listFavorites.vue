@@ -17,7 +17,6 @@ export default {
 			{ id: 3, clas: 'icon-document', title: 'Смета строительства загородного дома' },
 			{ id: 4, clas: 'icon-task', title: 'Отчет за 3 квартал отдела производства' },
 			{ id: 5, clas: 'icon-task', title: 'Отчет за 3 квартал коммерческого отдела' },
-
 		],
 		
 	}),

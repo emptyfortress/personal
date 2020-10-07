@@ -5,12 +5,12 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 			div
 				.hd
 					Flipped(:flipId="`hd-${index}`")
-						.txt {{ blocks[index].title }}
-					Flipped(:flipId="`dig-${index}`")
-						.dig(:class="blocks[index].down ? '' : 'red--text'")
-							span(v-if="blocks[index].down") &darr;
+						.txt {{ block.title }}
+					Flipped(:flipId="`dig-${index}`" v-if="block.digit")
+						.dig(:class="block.down ? '' : 'red--text'")
+							span(v-if="block.down") &darr;
 							span(v-else) &uarr;
-							span {{ blocks[index].digit }}
+							span {{ block.digit }}
 					v-btn(fab color="dark" dark small @click="toggle(index)").close
 						v-icon mdi-close
 
@@ -22,16 +22,18 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 					.empty(v-if="!tasks.length" @click="toggle(index)")
 						img(src="@/assets/img/man.svg")
 						div Нет новых заданий
-				.d-flex.align-center.mt-5
+
+				.d-flex.align-center.mt-5(v-if="index < 3")
 					Flipped(:flipId="`big-${index}`")
 						.big
 							span(v-if="selected !== 0") {{ selected }}
 							span(v-if="selected !== 0").iz из
 							span {{ total(index) }}
 					v-slide-x-transition(mode="out-in")
-						v-btn(depressed v-if="selected !== 0" @click="read").ml-6 {{ blocks[index].but }}
+						v-btn(depressed v-if="selected !== 0" @click="read").ml-6 {{ block.but }}
 					v-slide-x-transition(mode="out-in")
-						v-btn(depressed  v-if="selected !== 0").ml-2 {{ blocks[index].but1}}
+						v-btn(depressed  v-if="selected !== 0").ml-2 {{ block.but1}}
+
 </template>
 
 <script>
@@ -46,13 +48,13 @@ import { mapGetters } from 'vuex'
 
 
 export default {
-	props: ['index', 'focused'],
+	props: ['block', 'index', 'focused'],
 	data() {
 		return {
 		}
 	},
 	computed: {
-		...mapGetters(['tasks', 'blocks']),
+		...mapGetters(['tasks']),
 		selected () {
 			return this.tasks.filter( item => item.selected).length
 		}
@@ -162,9 +164,9 @@ export default {
 .dig {
 	color: green;
 }
-.zind {
-	z-index: 3;
-}
+/* .zind { */
+/* 	z-index: 7; */
+/* } */
 .iz {
 	margin: 0 .5rem;
 	font-size: 1.0rem;
