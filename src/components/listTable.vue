@@ -3,7 +3,7 @@ div
 	Chips(:chips="chips" @select="setFilter").slide
 	v-simple-table(fixed-header height="400").mytab
 		template(v-slot:default)
-			thead.slide
+			thead
 				tr.head
 					th.sm
 						v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check
@@ -33,7 +33,11 @@ export default {
 		all: false,
 		sortKey: 'deadline',
 		reverse: false,
-		chips: ['На исполнение', 'На ознакомление', 'На согласование' ],
+		chips: [
+			{ title: 'На исполнение', value: 6 },
+			{ title: 'На ознакомление', value: 3 },
+			{ title: 'На согласование', value: 2 },
+		],
 		filter: undefined,
 	}),
 	components: {

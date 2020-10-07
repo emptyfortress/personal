@@ -236,6 +236,110 @@ const bl = [
 	{ id: 2, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все', },
 ]
 
+const bigbl = [
+	{ id: 0, title: 'Исполнительская дисциплина', digit: 3, down: false },
+	{ id: 1, title: 'Задания у подчиненных', },
+	{ id: 2, title: 'Избранное', },
+]
+
+const urgent = [
+	{
+		'id': 0,
+		'number': '№ 126',
+		'unread': false,
+		'selected': false,
+		'author': 'Петров',
+		'executor': 'Воробьев К.А.',
+		'status': 'В работе',
+		'type': 'На согласование',
+		'today': true,
+		'control': true,
+		'deadline': '2020-08-18',
+		'created': '2020-07-21',
+		'title': 'Протокол совещания по вопросу выполнения третьей очереди работ по созданию ГИС СПб 27.09.2020 № ***',
+		'files': '1'
+	},
+	{
+		'id': 1,
+		'number': '№ 185',
+		'unread': false,
+		'selected': false,
+		'author': 'Петров',
+		'executor': 'Воробьев К.А.',
+		'status': 'В работе',
+		'today': true,
+		'control': true,
+		'type': 'На ознакомление',
+		'deadline': '2020-08-18',
+		'created': '2020-08-12',
+		'title': 'О восстановлении работоспособности системы подогрева приточной вентиляции',
+		'files': '5'
+	},
+	{
+		'id': 2,
+		'number': '№ 158',
+		'unread': true,
+		'selected': false,
+		'author': '<Я>',
+		'executor': 'Гусев П.И.',
+		'status': 'Делегировано',
+		'type': 'На исполнение',
+		'deadline': '2020-08-19',
+		'urgent': true,
+		'created': '2020-08-11',
+		'title': 'О вызове представителя',
+		'files': '3'
+	},
+	{
+		'id': 3,
+		'number': '№ 160',
+		'unread': false,
+		'selected': false,
+		'author': '<Я>',
+		'executor': 'Синичкина Г.И.',
+		'status': 'Завершено',
+		'type': 'На исполнение',
+		'control': true,
+		'deadline': '2020-08-20',
+		'urgent': true,
+		'created': '2020-08-12',
+		'title': 'Совещание по вопросу исполнения договора от 24.06.2015 № *** на оказание услуги по размещению кабелей на территории Петербургского метрополитена и их техническому обслуживанию, тзаключенного с ПАО Мегфон',
+		'files': '8'
+	},
+	{
+		'id': 4,
+		'number': '№ 150',
+		'unread': true,
+		'selected': false,
+		'author': '<Я>',
+		'executor': 'Воробьев К.А.',
+		'status': 'Просрочено',
+		'type': 'На ознакомление',
+		'deadline': '2020-08-21',
+		'control': true,
+		'expired': true,
+		'created': '2020-08-13',
+		'title': 'О срабатывании автоматического выключателя SF58',
+		'files': ''
+	},
+	{
+		'id': 5,
+		'number': '№ 225',
+		'unread': false,
+		'selected': false,
+		'author': 'Петров',
+		'executor': 'Жаворонков К.К',
+		'status': 'На проверке',
+		'type': 'На исполнение',
+		'deadline': '2020-08-22',
+		'urgent': true,
+		'created': '2020-08-05',
+		'title': 'О рассмотрении РД по ЛПЛ',
+		'files': ''
+	},
+	
+]
+
 export {
-	headers, headers1, items, bl
+	headers, headers1, items, bl, urgent, bigbl
 }

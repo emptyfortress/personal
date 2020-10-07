@@ -3,7 +3,7 @@ div
 	//- Chips(:chips="chips" @select="setFilter")
 	v-simple-table(fixed-header height="400").mytab
 		template(v-slot:default)
-			thead.slide
+			thead
 				tr.head
 					//- th.sm
 					//- 	v-simple-checkbox(:value="all" @input="setAll" :indeterminate="indeterminate" v-ripple).check

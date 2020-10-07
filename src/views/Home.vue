@@ -45,7 +45,7 @@ import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
-import {items, bl} from '@/data.js'
+import {items, bl, bigbl} from '@/data.js'
 import Block from '@/components/Block'
 import { mapGetters } from 'vuex'
 
@@ -55,6 +55,7 @@ export default {
 		date: '',
 		items,
 		bl,
+		bigbl,
 		focused: null,
 		color: '#6DAE50',
 		series: [70],
@@ -81,9 +82,10 @@ export default {
 		Flipper,
 		Flipped,
 		Block,
+		// Bell,
 	},
 	computed: {
-		...mapGetters(['tasks', 'blocks']),
+		...mapGetters(['tasks', 'blocks', 'bigblocks']),
 		selected () {
 			return this.tasks.filter( item => item.selected).length
 		},
@@ -91,6 +93,7 @@ export default {
 	created () {
 		this.$store.commit('setTasks', this.items)
 		this.$store.commit('setBlocks', this.bl)
+		this.$store.commit('setBigBlocks', this.bigbl)
 	},
 	methods:{
 		toggle (e) {
@@ -167,5 +170,10 @@ export default {
 }
 .zind {
 	z-index: 3;
+}
+.bell {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
 }
 </style>

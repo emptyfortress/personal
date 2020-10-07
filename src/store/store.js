@@ -14,6 +14,7 @@ export default new Vuex.Store({
 		checked: [],
 		tasks: [],
 		blocks: [],
+		bigblocks: [],
 	},
 	getters: {
 		drawer: state => { return state.drawer },
@@ -25,6 +26,7 @@ export default new Vuex.Store({
 		checked: state => { return state.checked },
 		tasks: state => { return state.tasks },
 		blocks: state => { return state.blocks },
+		bigblocks: state => { return state.bigblocks },
 	},
 	mutations: {
 		toggleDrawer (state) { state.drawer = !state.drawer },
@@ -37,6 +39,7 @@ export default new Vuex.Store({
 		setChecked (state, payload) { state.checked = payload },
 		setTasks (state, payload) { state.tasks = payload },
 		setBlocks (state, payload) { state.blocks = payload },
+		setBigBlocks (state, payload) { state.bigblocks = payload },
 	},
 	actions: {
 	},
