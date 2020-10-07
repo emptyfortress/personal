@@ -20,23 +20,33 @@
 								Flipped(:flipId="`big-${index}`")
 									.big {{ total(index) }}
 				Block(:index="index" :focused="focused" @change="toggle(index)")
-	.home.one
-		.bl
-			.hd
-				.txt Исполнительская дисциплина
-				.dig &uarr; 3
-			div
-				apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
-		.bl
-			.hd
-				.txt Задания у подчиненных
-			UserLoad
-		.bl
-			.hd
-				.txt
-					v-icon mdi-star-outline
-					span Избранное
-			listFavorites
+	Flipper(:flipKey="focused1" spring="stiff")
+		.home.one
+			div(v-for="(block,index) in bigblocks" :key="index")
+				Flipped(:flipId="`big-${index}`")
+					.bl.over(@click="togglebig(index)")
+						Flipped(:inverseFlipId="`big-${index}`")
+							.hd
+								.txt {{block.title}}
+								.dig(v-if="block.digit") &uarr; {{block.digit}}
+				BigBlock(:index="index" :focused1="focused1")
+
+		//- .bl
+		//- 	.hd
+		//- 		.txt Исполнительская дисциплина
+		//- 		.dig &uarr; 3
+		//- 	div
+		//- 		apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
+		//- .bl
+		//- 	.hd
+		//- 		.txt Задания у подчиненных
+		//- 	UserLoad
+		//- .bl
+		//- 	.hd
+		//- 		.txt
+		//- 			v-icon mdi-star-outline
+		//- 			span Избранное
+		//- 	listFavorites
 </template>
 
 <script>
@@ -47,6 +57,8 @@ import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
 import {items, bl, bigbl} from '@/data.js'
 import Block from '@/components/Block'
+import BigBlock from '@/components/BigBlock'
+
 import { mapGetters } from 'vuex'
 
 
@@ -57,6 +69,7 @@ export default {
 		bl,
 		bigbl,
 		focused: null,
+		focused1: null,
 		color: '#6DAE50',
 		series: [70],
 		chartOptions: {
@@ -82,7 +95,7 @@ export default {
 		Flipper,
 		Flipped,
 		Block,
-		// Bell,
+		BigBlock,
 	},
 	computed: {
 		...mapGetters(['tasks', 'blocks', 'bigblocks']),
@@ -97,11 +110,14 @@ export default {
 	},
 	methods:{
 		toggle (e) {
-			this.blocks.map( item => item.active = false)
-			this.blocks[e].active = true
 			if (this.focused !== null) {
 				this.focused = null
 			} else this.focused = e
+		},
+		togglebig (e) {
+			if (this.focused1 !== null) {
+				this.focused1 = null
+			} else this.focused1 = e
 		},
 		total (e) {
 			switch (e) {
@@ -175,5 +191,18 @@ export default {
 	position: absolute;
 	bottom: 1rem;
 	right: 1rem;
+}
+.block {
+	position: absolute;
+	left: 0;
+	top: 100px;
+	background: #fff;
+	width: 100%;
+	height: 500px;
+	border-radius: 4px;
+	padding: 2rem;
+	z-index: 7;
+	box-shadow: 0 3px 10px #ccc;
+	border: 1px solid #dedede;
 }
 </style>

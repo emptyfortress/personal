@@ -94,7 +94,7 @@ export default {
 			const close = el.querySelector('.close')
 			anime({
 				targets: close,
-				opacity: [0, 1],
+				opacity: 1,
 				duration: 200,
 				rotate: 360,
 				scale: [0,1],
@@ -146,7 +146,7 @@ export default {
 		position: absolute;
 		top: -20px;
 		right: -20px;
-		/* opacity: 0; */
+		opacity: 0;
 	}
 }
 .big {
