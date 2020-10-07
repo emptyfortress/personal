@@ -40,7 +40,7 @@ import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import listFavorites from '@/components/listFavorites'
 import { Flipper, Flipped } from "vue-flip-toolkit"
-import {items, bl, bigbl} from '@/data.js'
+import {items, bl} from '@/data.js'
 import Block from '@/components/Block'
 import BigBlock from '@/components/BigBlock'
 
@@ -52,7 +52,6 @@ export default {
 		date: '',
 		items,
 		bl,
-		bigbl,
 		focused: null,
 		focused1: null,
 		color: '#6DAE50',
@@ -95,15 +94,17 @@ export default {
 	},
 	methods:{
 		toggle (e) {
+			this.blocks.map( item => item.active = false)
+			this.blocks[e].active = true
 			if (this.focused !== null) {
 				this.focused = null
 			} else this.focused = e
 		},
-		togglebig (e) {
-			if (this.focused1 !== null) {
-				this.focused1 = null
-			} else this.focused1 = e
-		},
+		// togglebig (e) {
+		// 	if (this.focused1 !== null) {
+		// 		this.focused1 = null
+		// 	} else this.focused1 = e
+		// },
 		total (e) {
 			switch (e) {
 			case 0:
