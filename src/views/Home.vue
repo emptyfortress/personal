@@ -22,7 +22,7 @@
 								Flipped(:flipId="`big-${index}`" v-if="index < 3")
 									.big {{ total(index) }}
 
-								Flipped(:flipId="graf" v-if="index === 3")
+								Flipped(flipId="graf" v-if="index === 3")
 									apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
 
 								Flipped(:flipId="people" v-if="index === 4")
@@ -171,11 +171,9 @@ export default {
 	color: green;
 }
 .zind {
-	z-index: 12;
+	z-index: 6;
 }
-.bell {
-	position: absolute;
-	bottom: 1rem;
-	right: 1rem;
+.chart {
+	height: 250px;
 }
 </style>

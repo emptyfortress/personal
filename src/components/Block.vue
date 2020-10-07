@@ -1,6 +1,8 @@
 <template lang="pug">
 Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart")
 	.block
+		v-btn(fab color="dark" dark small @click="toggle(index)").close
+			v-icon mdi-close
 		Flipped(:inverseFlipId="`box-${index}`")
 			div
 				.hd
@@ -11,8 +13,14 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 							span(v-if="block.down") &darr;
 							span(v-else) &uarr;
 							span {{ block.digit }}
-					v-btn(fab color="dark" dark small @click="toggle(index)").close
-						v-icon mdi-close
+				Flipped(flipId="graf" v-if="index === 3")
+					.charts
+						div
+							apexchart(type="radialBar" height="260" :options="chartOptions" :series="series")
+							.legend Текущая неделя
+						div
+							apexchart(type="bar" height="250" width="600" :options="barOptions" :series="barSeries")
+							.legend Дисциплина отдела "Производство" по неделям
 
 				listTable(v-if="index === 0 && tasks.length")
 				Urgent(v-if="index === 1")
@@ -41,6 +49,7 @@ import { Flipper, Flipped } from "vue-flip-toolkit"
 import listTable from '@/components/listTable'
 import controlTable from '@/components/controlTable'
 import Urgent from '@/components/Urgent'
+import VueApexCharts from 'vue-apexcharts'
 
 
 import anime from 'animejs'
@@ -51,6 +60,30 @@ export default {
 	props: ['block', 'index', 'focused'],
 	data() {
 		return {
+			series: [70],
+			chartOptions: {
+				chart: {
+					height: 250,
+					type: 'radialBar',
+				},
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '70%',
+						}
+					},
+				},
+				labels: ['Производство'],
+			},
+			barOptions: {
+				xaxis: {
+					categories: [23, 24, 25, 26, 27, 28, 29, 30]
+				}
+			},
+			barSeries: [{
+				name: 'series-1',
+				data: [72, 77, 74, 66, 49, 82, 70, 73]
+			}]
 		}
 	},
 	computed: {
@@ -65,6 +98,7 @@ export default {
 		listTable,
 		controlTable,
 		Urgent,
+		apexchart: VueApexCharts,
 	},
 	methods: {
 		total (e) {
@@ -151,6 +185,15 @@ export default {
 		opacity: 0;
 	}
 }
+.charts {
+	display: flex;
+	justify-content: space-around;
+	.test {
+		width: 200px;
+		height: 200px;
+		background: #ccc;
+	}
+}
 .big {
 	font-size: 2.3rem;
 	line-height: 100%;
@@ -164,9 +207,6 @@ export default {
 .dig {
 	color: green;
 }
-/* .zind { */
-/* 	z-index: 7; */
-/* } */
 .iz {
 	margin: 0 .5rem;
 	font-size: 1.0rem;
@@ -183,5 +223,9 @@ export default {
 		width: 150px;
 		display: block;
 	}
+}
+.legend {
+	text-align: center;
+	font-size: .9rem;
 }
 </style>
