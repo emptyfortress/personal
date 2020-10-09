@@ -16,7 +16,8 @@ export default {
 			{ id: 2, clas: 'icon-task', title: 'Согласование договора с Автовазом на поставку комплектующих' },
 			{ id: 3, clas: 'icon-document', title: 'Смета строительства загородного дома' },
 			{ id: 4, clas: 'icon-task', title: 'Отчет за 3 квартал отдела производства' },
-			{ id: 5, clas: 'icon-task', title: 'Отчет за 3 квартал коммерческого отдела' },
+			{ id: 5, clas: 'icon-task', title: 'Отчет за 4 квартал коммерческого отдела' },
+			{ id: 6, clas: 'icon-task', title: 'Подготовка презентации для конференции' },
 		],
 		
 	}),
@@ -34,7 +35,7 @@ export default {
 		color: $link;
 		display: flex;
 		line-height: 100%;
-		margin-bottom: 1rem;
+		margin-bottom: .85rem;
 		align-items: baseline;
 		i {
 			font-size: 1.0rem;

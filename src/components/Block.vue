@@ -22,6 +22,9 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 							apexchart(type="bar" height="250" width="600" :options="barOptions" :series="barSeries")
 							.legend Дисциплина отдела "Производство" по неделям
 
+				Flipped(flipId="people" v-if="index === 4")
+					UserLoad
+
 				listTable(v-if="index === 0 && tasks.length")
 				Urgent(v-if="index === 1")
 				controlTable(v-if="index === 2")
@@ -50,6 +53,7 @@ import listTable from '@/components/listTable'
 import controlTable from '@/components/controlTable'
 import Urgent from '@/components/Urgent'
 import VueApexCharts from 'vue-apexcharts'
+import UserLoad from '@/components/UserLoad'
 
 
 import anime from 'animejs'
@@ -99,6 +103,7 @@ export default {
 		controlTable,
 		Urgent,
 		apexchart: VueApexCharts,
+		UserLoad,
 	},
 	methods: {
 		total (e) {

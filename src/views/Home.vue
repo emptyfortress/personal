@@ -25,7 +25,7 @@
 								Flipped(flipId="graf" v-if="index === 3")
 									apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
 
-								Flipped(:flipId="people" v-if="index === 4")
+								Flipped(flipId="people" v-if="index === 4")
 									UserLoad
 
 								Flipped(:flipId="fav" v-if="index === 5")
@@ -98,13 +98,11 @@ export default {
 			this.blocks[e].active = true
 			if (this.focused !== null) {
 				this.focused = null
+			} 
+			else if (e === 5) {
+				return
 			} else this.focused = e
 		},
-		// togglebig (e) {
-		// 	if (this.focused1 !== null) {
-		// 		this.focused1 = null
-		// 	} else this.focused1 = e
-		// },
 		total (e) {
 			switch (e) {
 			case 0:

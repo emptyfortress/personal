@@ -232,8 +232,8 @@ const items = [
 
 const bl = [
 	{ id: 0, active: false, title: 'Новые задания', digit: 7, down: true,  but: 'Прочитано', but1: 'Ознакомлен', },
-	{ id: 1, active: false, title: 'Срочные задания', digit: 3, down: true,  but: 'Прочитать все', },
-	{ id: 2, active: false, title: 'Контроль', digit: 5, down: false,  but: 'Прочитать все', },
+	{ id: 1, active: false, title: 'Истекает срок', digit: 3, down: true,  but: 'Прочитать все', },
+	{ id: 2, active: false, title: 'Задания на контроле', digit: 5, down: false,  but: 'Прочитать все', },
 	{ id: 3, active: false, title: 'Исполнительская дисциплина', digit: 3, down: true },
 	{ id: 4, active: false, title: 'Задания у подчиненных', },
 	{ id: 5, active: false, title: 'Избранное', },
