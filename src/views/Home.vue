@@ -3,7 +3,7 @@
 	.zg {{ date }}
 	Flipper(:flipKey="focused" spring="stiff")
 		.home
-			div(v-for="(block,index) in blocks")
+			div(v-for="(block,index) in blocks" :class="block.cl")
 				Flipped(:flipId="`box-${index}`")
 					.bl.over(@click="toggle(index)" :class="block.active ? 'zind' : ''")
 						Wave(:color="color" v-if="index === 0 && tasks.length")
@@ -12,23 +12,23 @@
 								.hd
 									Flipped(:flipId="`hd-${index}`")
 										.txt
-											v-icon(v-if="index === 5").mr-2 mdi-star-outline
+											v-icon(v-if="index === 6").mr-2 mdi-star-outline
 											span {{ block.title }}
 									Flipped(:flipId="`dig-${index}`" v-if="block.digit")
 										.dig(:class="block.down ? '' : 'red--text'")
 											span(v-if="block.down") &darr;
 											span(v-else) &uarr;
 											span {{ block.digit }}
-								Flipped(:flipId="`big-${index}`" v-if="index < 3")
+								Flipped(:flipId="`big-${index}`" v-if="index < 4")
 									.big {{ total(index) }}
 
-								Flipped(flipId="graf" v-if="index === 3")
+								Flipped(flipId="graf" v-if="index === 4")
 									apexchart(type="radialBar" height="250" :options="chartOptions" :series="series")
 
-								Flipped(flipId="people" v-if="index === 4")
+								Flipped(flipId="people" v-if="index === 5")
 									UserLoad
 
-								Flipped(:flipId="fav" v-if="index === 5")
+								Flipped(:flipId="fav" v-if="index === 6")
 									listFavorites
 
 				Block(:block="block" :index="index" :focused="focused" @change="toggle(index)")
@@ -99,7 +99,7 @@ export default {
 			if (this.focused !== null) {
 				this.focused = null
 			} 
-			else if (e === 5) {
+			else if (e === 6) {
 				return
 			} else this.focused = e
 		},
@@ -111,6 +111,8 @@ export default {
 				return this.tasks.filter( item => item.urgent).length
 			case 2:
 				return this.tasks.filter( item => item.control).length
+			case 3:
+				return 3
 			default: return 0
 			}
 		}
@@ -130,12 +132,16 @@ export default {
 .home {
 	margin-top: 2rem;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(12, 1fr);
 	gap: 1rem;
-	/* &.one { */
-	/* 	margin-top: 1rem; */
-	/* } */
 }
+.gr1 {grid-column: 1/4;}
+.gr2 {grid-column: 4/7;}
+.gr3 {grid-column: 7/10;}
+.gr4 {grid-column: 10/13;}
+.gr5 {grid-column: 1/5;}
+.gr6 {grid-column: 5/9;}
+.gr7 {grid-column: 9/13;}
 .zg {
 	text-align: center;
 	font-size: 1.3rem;

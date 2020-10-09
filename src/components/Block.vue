@@ -13,7 +13,14 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 							span(v-if="block.down") &darr;
 							span(v-else) &uarr;
 							span {{ block.digit }}
-				Flipped(flipId="graf" v-if="index === 3")
+
+				listTable(v-if="index === 0 && tasks.length")
+				Urgent(v-if="index === 1")
+				controlTable(v-if="index === 2")
+				div(v-if="index === 3")
+					.big 3
+
+				Flipped(flipId="graf" v-if="index === 4")
 					.charts
 						div
 							apexchart(type="radialBar" height="260" :options="chartOptions" :series="series")
@@ -22,12 +29,12 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 							apexchart(type="bar" height="250" width="600" :options="barOptions" :series="barSeries")
 							.legend Дисциплина отдела "Производство" по неделям
 
-				Flipped(flipId="people" v-if="index === 4")
-					UserLoad
-
-				listTable(v-if="index === 0 && tasks.length")
-				Urgent(v-if="index === 1")
-				controlTable(v-if="index === 2")
+				Flipped(flipId="people" v-if="index === 5")
+					.charts
+						.us
+							UserLoad
+						.us
+							Donut
 
 				v-slide-x-transition(mode="out-in")
 					.empty(v-if="!tasks.length" @click="toggle(index)")
@@ -54,8 +61,7 @@ import controlTable from '@/components/controlTable'
 import Urgent from '@/components/Urgent'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
-
-
+import Donut from '@/components/Donut'
 import anime from 'animejs'
 import { mapGetters } from 'vuex'
 
@@ -104,6 +110,7 @@ export default {
 		Urgent,
 		apexchart: VueApexCharts,
 		UserLoad,
+		Donut,
 	},
 	methods: {
 		total (e) {
@@ -193,10 +200,8 @@ export default {
 .charts {
 	display: flex;
 	justify-content: space-around;
-	.test {
-		width: 200px;
-		height: 200px;
-		background: #ccc;
+	.us {
+		width: 50%;
 	}
 }
 .big {
@@ -233,4 +238,7 @@ export default {
 	text-align: center;
 	font-size: .9rem;
 }
+/* .chart { */
+/* 	width: 50%; */
+/* } */
 </style>
