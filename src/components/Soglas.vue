@@ -1,5 +1,5 @@
 <template lang="pug">
-v-simple-table.mytab
+v-simple-table(fixed-header height="400").mytab
 	template(v-slot:default)
 		thead
 			tr.head
@@ -10,20 +10,26 @@ v-simple-table.mytab
 					span(v-if="sortKey === header.value && reverse").ml-2 &uarr;
 		transition-group( name="list-complete" tag="tbody").mysort
 			template(v-for="row in sorted")
-				tr(:key="row.id").slide
+				tr(:key="row.id" :class="{'active' : expanded.includes(row.id) }").slide
 					td.sm
 						v-btn(icon small @click="expand(row.id)")
 							v-icon mdi-chevron-right
-					td.nowrap {{ row.title }}
+					td.lnk {{ row.title }}
 					td.nowrap {{ row.date }}
-					td.nowrap {{ row.status }}
+					td(:class="sogl(row.id)").status
+						span.bag
+						span.text {{ row.status }}
 					td.nowrap {{ row.name }}
 				tr(v-if="expanded.includes(row.id)" :key="`ex-${row.id}`").slide
 					td
-					td fuck
-					td fuck
-					td fuck
-					td fuck
+					td
+					td
+					td
+						ul
+							li(v-for="item in row.stat") {{ item }}
+					td
+						ul
+							li(v-for="item in row.fio") {{ item }}
 </template>
 
 <script>
@@ -36,31 +42,37 @@ export default {
 			reverse: false,
 			headers: [
 				{ text: 'Тема', align: 'start', sortable: false, value: 'title', },
-				{ text: 'Дата запуска', value: 'date' },
+				{ text: 'Дата старта', value: 'date' },
 				{ text: 'Статус', value: 'status' },
 				{ text: 'Согласующие', value: 'name' },
 			],
 			items: [
 				{
 					id: 0,
-					title: 'Frozen Yogurt',
-					date: 159,
-					status: 6.0,
-					name: 24,
+					title: 'Закупка  мебели для отдела производства',
+					date: '2020-10-02',
+					status: 'Согласовано (с замечаниями)',
+					name: 4,
+					stat: ['Согласовано', 'Согласовано', 'Согласовано с замечаниями', 'Согласовано'],
+					fio: ['Орлов П.С.', 'Гусев К.Ф.', 'Уткина Т.М.', 'Воронов А.А.']
 				},
 				{
 					id: 1,
-					title: 'Ice cream sandwich',
-					date: 237,
-					status: 9.0,
-					name: 37,
+					title: 'Договор с ООО Ромашка',
+					date: '2020-10-05',
+					status: 'На согласовании',
+					name: 5,
+					stat: ['Согласовано', 'Согласовано', 'Не начато', 'Согласовано', 'Согласовано'],
+					fio: ['Орлов П.С.', 'Гусев К.Ф.', 'Уткина Т.М.', 'Воронов А.А.', 'Сорокина Ж.И.']
 				},
 				{
 					id: 2,
-					title: 'Eclair',
-					date: 262,
-					status: 16.0,
-					name: 23,
+					title: 'Отчет о прибылях и убытках',
+					date: '2020-10-03',
+					status: 'На согласовании',
+					name: 3,
+					stat: ['Согласовано', 'В работе', 'В работе'],
+					fio: ['Орлов П.С.', 'Гусев К.Ф.', 'Уткина Т.М.']
 				},
 			]
 		}
@@ -90,6 +102,14 @@ export default {
 		},
 	},
 	methods: {
+		sogl (e) {
+			switch (e) {
+			case 0: return 'finish'
+			case 1: return 'some'
+			case 2: return 'some1'
+			default: return ''
+			}
+		},
 		expand (e) {
 			let index = this.expanded.indexOf(e)
 			if (index > -1) {
@@ -129,5 +149,53 @@ th {
 th.active {
 	font-weight: bold;
 	color: black !important;
+}
+.lnk {
+	color: $link;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+.status {
+	position: relative;
+	white-space: nowrap;
+	.bag {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		background: $taskcolor;
+	}
+	.text {
+		position: relative;
+	}
+}
+.finish .bag {
+	width: 100%;
+}
+.some .bag {
+	width: 80%;
+	background: #B8DEFE;
+}
+.some1 .bag {
+	width: 30%;
+	background: #B8DEFE;
+}
+ul {
+	list-style: none;
+	margin: .5rem 0;
+	padding: 0;
+	margin-bottom: 1.5rem;
+	li {
+		padding: 5px 0;
+	}
+}
+.active td {
+	border-bottom: none !important;
+}
+.active .v-icon {
+	transform: rotate(90deg);
 }
 </style>
