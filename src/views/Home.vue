@@ -19,6 +19,7 @@
 											span(v-if="block.down") &darr;
 											span(v-else) &uarr;
 											span {{ block.digit }}
+
 								Flipped(:flipId="`big-${index}`" v-if="index < 4")
 									.big {{ total(index) }}
 

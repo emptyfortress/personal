@@ -17,7 +17,9 @@ Flipped(:flipId="`box-${index}`" v-if="focused === index" @on-start="handleStart
 				listTable(v-if="index === 0 && tasks.length")
 				Urgent(v-if="index === 1")
 				controlTable(v-if="index === 2")
-				div(v-if="index === 3")
+				Soglas(v-if="index === 3")
+
+				Flipped(:flipId="`big-${index}`" v-if="index === 3")
 					.big 3
 
 				Flipped(flipId="graf" v-if="index === 4")
@@ -62,6 +64,8 @@ import Urgent from '@/components/Urgent'
 import VueApexCharts from 'vue-apexcharts'
 import UserLoad from '@/components/UserLoad'
 import Donut from '@/components/Donut'
+import Soglas from '@/components/Soglas'
+
 import anime from 'animejs'
 import { mapGetters } from 'vuex'
 
@@ -111,6 +115,7 @@ export default {
 		apexchart: VueApexCharts,
 		UserLoad,
 		Donut,
+		Soglas,
 	},
 	methods: {
 		total (e) {
