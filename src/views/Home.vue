@@ -29,7 +29,7 @@
 								Flipped(flipId="people" v-if="index === 5")
 									UserLoad
 
-								Flipped(:flipId="fav" v-if="index === 6")
+								Flipped(flipId="fav" v-if="index === 6")
 									listFavorites
 
 				Block(:block="block" :index="index" :focused="focused" @change="toggle(index)")
