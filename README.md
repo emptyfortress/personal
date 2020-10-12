@@ -1,4 +1,4 @@
-# elastic
+# Personal
 Персональный интерфейс для суэк
 * vue
 * vuetify
